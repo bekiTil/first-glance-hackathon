@@ -5,74 +5,36 @@ Owner: Bereket. These generate openapi.json -> frontend/src/api/types.ts
 All datetimes are naive UTC.
 """
 
-from datetime import date, datetime
+from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field
 
-from app.enums import (
-    AgentName,
-    AlertStatus,
-    Channel,
-    PaymentStatus,
-    ReplyAction,
-    TicketSource,
-    WatchStatus,
-)
+from app.enums import AgentName, Arm, PaymentStatus, TestStatus, Winner
 
 # ---------- domain ----------
 
 
-class Checklist(BaseModel):
-    """What the customer confirms before paying. A match = every field below is satisfied."""
+class HeroCopy(BaseModel):
+    """The top of a landing page: what a visitor sees in the first 5 seconds."""
 
-    query: str = Field(description="The customer's original sentence")
-    performer: str = Field(description='Team/artist/show, e.g. "New York Knicks"')
-    venue: str | None = None
-    date_from: date
-    date_to: date
-    weekdays: list[int] = Field(default_factory=list, description="0=Mon..6=Sun; empty = any day")
-    max_price_per_ticket: float = Field(description="USD per ticket, all-in including fees")
-    quantity: int = 1
-    exclude_sections: list[str] = Field(default_factory=list, description='e.g. ["upper level"]')
-    preferences: list[str] = Field(default_factory=list, description="Soft wishes; ranked, never guaranteed")
+    headline: str
+    subhead: str = ""
+    cta: str = Field(default="", description='Button text, e.g. "Start free trial"')
 
 
-class EventInfo(BaseModel):
-    source: TicketSource
-    external_id: str
-    name: str
-    starts_at: datetime
-    venue: str
-    url: str
+class ArmResult(BaseModel):
+    responses: int
+    understood: int = Field(description="Answers Claude graded as matching what the company does")
+    understood_rate: float = Field(description="understood / responses, 0..1")
+    avg_signup: float = Field(description="Average 'would you sign up?' 1-5")
+    sample_answers: list[str] = Field(default_factory=list, description="Up to 5 verbatim answers")
 
 
-class Listing(BaseModel):
-    """The best current offer for one event, as returned by integrations.tickets."""
-
-    source: TicketSource
-    external_event_id: str
-    event_name: str
-    starts_at: datetime
-    venue: str
-    price_per_ticket: float
-    includes_fees: bool = False
-    quantity_available: int | None = None
-    section: str | None = None
-    url: str
-
-    @property
-    def key(self) -> str:
-        """Same listing at the same price = same key (used to avoid duplicate alerts)."""
-        return f"{self.source}:{self.external_event_id}:{self.section or '-'}:{self.price_per_ticket:.2f}"
-
-
-class Verification(BaseModel):
-    """Result of integrations.solari.verify_listing()."""
-
-    ok: bool
-    price_seen: float | None = None
-    screenshot_path: str | None = None
-    note: str = ""
+class TestResults(BaseModel):
+    original: ArmResult
+    rewrite: ArmResult
+    winner: Winner
+    summary: str = Field(description='One sentence, e.g. "3/5 understood yours, 5/5 understood ours"')
 
 
 class PaymentEvent(BaseModel):
@@ -81,84 +43,68 @@ class PaymentEvent(BaseModel):
     whop_payment_id: str
     whop_user_id: str | None = None
     email: str | None = None
-    watch_public_id: str
+    test_public_id: str
     amount: float
     currency: str = "usd"
     status: PaymentStatus = PaymentStatus.succeeded
 
 
-class FreeEvent(BaseModel):
-    title: str
-    url: str
-    when: str | None = None
-    where: str | None = None
-    summary: str | None = None
-
-
 # ---------- API requests ----------
 
 
-class CreateWatchRequest(BaseModel):
-    query: str = Field(min_length=3, examples=["Knicks under $80, any Friday in November, 2 seats"])
+class CreateTestRequest(BaseModel):
+    url: str = Field(examples=["https://example.com"])
+    what_you_do: str = Field(min_length=5, description="One sentence: what does your company do, for whom?")
     email: EmailStr
-    phone: str | None = Field(default=None, description="E.164, e.g. +12125551234")
-    sms_consent: bool = False
 
 
-class UpdateChecklistRequest(BaseModel):
-    checklist: Checklist
+class TestAnswerIn(BaseModel):
+    participant_ref: str | None = Field(default=None, description="teracSubmissionId from the task URL")
+    arm: Arm = Field(description="The arm the test page was given by GET /api/t/{id}")
+    answer: str = Field(min_length=1, max_length=1000, description='"What does this company do?"')
+    signup: int = Field(ge=1, le=5, description='"How likely are you to sign up?" 1-5')
 
 
-class SendCodeRequest(BaseModel):
-    watch_id: str
-    phone: str
-
-
-class VerifyCodeRequest(BaseModel):
-    phone: str
-    code: str
-
-
-class LoginRequest(BaseModel):
+class SupportRequest(BaseModel):
     email: EmailStr
+    message: str = Field(min_length=2, max_length=4000)
+    test_id: str | None = None
 
 
 # ---------- API responses ----------
 
 
-class WatchOut(BaseModel):
+class TestOut(BaseModel):
+    """A customer's test, shown on the order page and the report page."""
+
     id: str = Field(description="public id (never the DB integer)")
-    status: WatchStatus
-    checklist: Checklist
-    questions: list[str] = Field(
-        default_factory=list, description="Follow-ups if the request was missing info"
-    )
-    events: list[EventInfo] = Field(default_factory=list)
+    status: TestStatus
+    url: str
+    what_you_do: str
+    original: HeroCopy | None = None
+    rewrite: HeroCopy | None = None
     price_usd: float
-    phone_verified: bool = False
+    responses_so_far: int = 0
+    results: TestResults | None = None
     created_at: datetime
+
+
+class TestPageOut(BaseModel):
+    """What one Terac participant sees on /t/{id}: ONE arm, for `seconds` seconds."""
+
+    id: str
+    arm: Arm
+    hero: HeroCopy
+    seconds: int = 5
 
 
 class CheckoutOut(BaseModel):
     checkout_url: str
 
 
-class VerifyOut(BaseModel):
-    verified: bool
-
-
 class OkOut(BaseModel):
     ok: bool = True
     message: str = ""
-
-
-class AlertOut(BaseModel):
-    id: int
-    status: AlertStatus
-    listing: Listing
-    deal_score: float
-    channels: list[Channel]
-    sent_at: datetime
 
 
 class DecisionOut(BaseModel):
@@ -174,66 +120,18 @@ class Stats(BaseModel):
     revenue_usd: float
     payments: int
     refunds: int
-    watches_created: int
-    watches_active: int
-    alerts_sent: int
-    clicks: int
-    purchases: int
-    conversion_rate: float = Field(description="paid watches / created watches")
+    tests_created: int
+    tests_paid: int
+    tests_delivered: int
+    rewrite_win_rate: float = Field(description="delivered customer tests where our rewrite won, 0..1")
+    conversion_rate: float = Field(description="paid tests / created tests")
     price_usd: float
 
 
-class ReplyIn(BaseModel):
-    """Payload of email_reply / sms_received jobs, consumed by the Support agent."""
+class SelfTestOut(BaseModel):
+    """Our own landing page's before/after (Research agent), for the Company Log page."""
 
-    alert_id: int | None = None
-    phone: str | None = None
-    action: ReplyAction | None = None
-    text: str = ""
-
-
-# ---------- Research / Terac studies (owner: Yared) ----------
-
-
-class StudyOption(BaseModel):
-    label: str = Field(description='"A" | "B" | "C"')
-    price: float
-    section: str
-    lower_level: bool
-    day: str = Field(description='e.g. "Fri Nov 13"')
-    weekend: bool
-
-
-class StudySet(BaseModel):
-    event: str
-    options: list[StudyOption]
-
-
-class LandingCopy(BaseModel):
-    headline: str
-    subhead: str
-    bullets: list[str] = Field(default_factory=list)
-    version: int = 1
-
-
-class StudyOut(BaseModel):
-    """What the /study/:id page shows a Terac participant."""
-
-    id: str
-    round: int
-    sets: list[StudySet]
-    landing: LandingCopy
-    price_usd: float
-
-
-class StudyPick(BaseModel):
-    set: int
-    option: str
-    why: str = ""
-
-
-class StudyAnswerIn(BaseModel):
-    participant_ref: str | None = Field(default=None, description="teracSubmissionId from the task URL")
-    picks: list[StudyPick]
-    willingness: int = Field(ge=1, le=5, description="How likely to pay $3 for this (1-5)")
-    unclear: str = ""
+    status: TestStatus | None = None
+    original: HeroCopy | None = None
+    rewrite: HeroCopy | None = None
+    results: TestResults | None = None

@@ -3,8 +3,9 @@
 REST API (beta): https://terac.com/api/external/v2, header "Authorization: Bearer <TERAC_API_KEY>".
 Key: Terac dashboard -> organization settings -> API keys. Spec: https://terac.com/docs/developers
 
-How a study works here: Terac recruits people and sends them to OUR page (task_url =
-{PUBLIC_WEB_URL}/study/<id>), where they answer; answers land in our study_answers table.
+How a FirstGlance test works: Terac recruits people and sends them to OUR page (task_url =
+{PUBLIC_WEB_URL}/t/<test id>), where they see one version for 5 seconds and answer; answers land in
+our test_answers table. One Terac opportunity per test.
 Audience = Terac's base audience (US adults, any language) = the "General Population" the organizers
 asked for. Completion is self-reported, so no callback is needed.
 
@@ -17,10 +18,10 @@ import httpx
 from app.config import settings
 
 BASE_URL = "https://terac.com/api/external/v2"
-PROJECT_NAME = "Ticket Watch research"
+PROJECT_NAME = "FirstGlance tests"
 SCREENER = {
-    "key": "bought_tickets",
-    "text": "Have you bought tickets to a live sports game, concert, or show in the past 2 years?",
+    "key": "uses_websites",
+    "text": "Do you sign up for or buy things from websites or apps at least once a month?",
     "pick": "one",
     "answers": [{"text": "Yes", "qualify_logic": "must"}, {"text": "No", "qualify_logic": "reject"}],
 }
@@ -82,8 +83,8 @@ def create_study(title: str, description: str, task_url: str, participants: int,
                             "task_type": "interview",
                             "review_type": "self_report",
                             "task_url": task_url,
-                            "title": "Pick the tickets you'd buy",
-                            "description": "Open the link, answer 6 quick questions, press Submit, then mark this task done.",
+                            "title": "Look at a website for 5 seconds",
+                            "description": "Open the link, look at a website for 5 seconds, answer 2 quick questions, press Submit, then mark this task done.",
                             "duration_minutes": minutes,
                         }
                     ],

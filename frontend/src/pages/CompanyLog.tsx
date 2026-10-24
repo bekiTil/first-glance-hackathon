@@ -1,6 +1,6 @@
 // The judges' page: live numbers, the Terac before/after, and every agent decision. Owner: Yared.
 import { useEffect, useState } from "react";
-import { api, type DecisionOut, type Stats } from "../api/client";
+import { api, type DecisionOut, type SelfTestOut, type Stats } from "../api/client";
 import { Card, timeAgo } from "../ui";
 
 const AGENT_COLORS: Record<string, string> = {
@@ -15,34 +15,35 @@ const pct = (v: unknown) => (typeof v === "number" ? `${Math.round(v * 100)}%` :
 export default function CompanyLog() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [log, setLog] = useState<DecisionOut[]>([]);
+  const [self, setSelf] = useState<SelfTestOut | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const load = () => {
       api.stats().then(setStats).catch((e) => setError(String(e.message ?? e)));
       api.companyLog(200).then(setLog).catch((e) => setError(String(e.message ?? e)));
+      api.selfTest().then(setSelf).catch(() => {});
     };
     load();
     const timer = setInterval(load, 10_000);
     return () => clearInterval(timer);
   }, []);
 
-  const beforeAfter = log.find((d) => d.action === "before_after");
-  const learned = log.find((d) => d.action === "updated_deal_weights");
+  const results = self?.results;
 
   return (
     <section className="py-8">
       <h1 className="text-3xl font-bold">Company log</h1>
-      <p className="mt-1 text-slate-600">Ticket Watch is run by AI agents. Everything they decide shows up here, live.</p>
+      <p className="mt-1 text-slate-600">FirstGlance is run by AI agents. Everything they decide shows up here, live.</p>
       {error && <p className="mt-2 text-sm text-amber-700">Some data isn't available yet: {error}</p>}
 
       {stats && (
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {([
             ["Revenue", `$${stats.revenue_usd.toFixed(2)}`],
-            ["Active watches", stats.watches_active],
-            ["Alerts sent", stats.alerts_sent],
-            ["Tickets bought", stats.purchases],
+            ["Tests paid", stats.tests_paid],
+            ["Reports delivered", stats.tests_delivered],
+            ["Our rewrite won", `${Math.round(stats.rewrite_win_rate * 100)}%`],
           ] as const).map(([label, value]) => (
             <Card key={label}>
               <p className="text-xs uppercase tracking-wide text-slate-500">{label}</p>
@@ -52,24 +53,23 @@ export default function CompanyLog() {
         </div>
       )}
 
-      {(beforeAfter || learned) && (
+      {self && (
         <div className="mt-6 rounded-xl border-2 border-sky-300 bg-sky-50 p-5">
-          <p className="font-bold">Real people taught our agent what a good deal is (via Terac)</p>
-          {beforeAfter ? (
+          <p className="font-bold">We test our own landing page with real people (via Terac)</p>
+          {results ? (
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <div>
-                <p className="text-sm text-slate-600">Agent agreed with people's picks</p>
-                <p className="text-2xl font-bold">{pct(beforeAfter.data.agreement_v1)} → {pct(beforeAfter.data.agreement_v2)}</p>
+                <p className="text-sm text-slate-600">Understood what we do in 5 seconds</p>
+                <p className="text-2xl font-bold">{pct(results.original.understood_rate)} → {pct(results.rewrite.understood_rate)}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600">Willingness to pay (1-5)</p>
-                <p className="text-2xl font-bold">
-                  {String(beforeAfter.data.willingness_v1 ?? "–")} → {String(beforeAfter.data.willingness_v2 ?? "–")}
-                </p>
+                <p className="text-sm text-slate-600">Would sign up (1-5)</p>
+                <p className="text-2xl font-bold">{results.original.avg_signup} → {results.rewrite.avg_signup}</p>
               </div>
+              <p className="text-sm sm:col-span-2">{results.summary}</p>
             </div>
           ) : (
-            <p className="mt-2 text-sm">{learned?.reason} Measuring the improvement with a second group of people now.</p>
+            <p className="mt-2 text-sm">Test status: {self.status ?? "starting"}. Real people are looking at it now.</p>
           )}
         </div>
       )}

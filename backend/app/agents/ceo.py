@@ -1,8 +1,8 @@
 """CEO agent. Owner: Yared.
 
-Hourly: read the numbers and what the other agents learned, then set the price, the Growth priorities
-and the target events. Price changes go through guardrails ($1-$5, max once an hour) and Natnael's
-whop module. Writes an hourly report to the Company Log.
+Hourly: read the numbers and recent agent activity, then set the price, the Growth priorities and the
+target audiences. Price changes go through guardrails ($5-$30, max once an hour) and Natnael's whop
+module. Writes an hourly report to the Company Log.
 """
 
 from sqlalchemy import select
@@ -15,21 +15,22 @@ from app.models import DecisionLog, Job
 from app.stats import compute_stats
 
 SYSTEM = (
-    "You are the CEO of Ticket Watch, a company run entirely by AI agents. It sells $1-$5 'watches': an "
-    "agent checks NYC ticket prices every 15 minutes and alerts the customer when tickets drop under their "
-    "max price; refunded if no match. Today is hackathon day: the goal is real paying customers in the next "
-    "few hours and a business that can keep growing. Given the numbers and recent agent activity, decide "
-    "the price, up to 3 concrete priorities for the Growth agent, and which events to target. Change the "
-    "price only with a clear reason from the data. Explain your reasoning in 2-3 sentences."
+    "You are the CEO of FirstGlance, a company run entirely by AI agents. For $5-$30 per test, ~10 real "
+    "people see a startup's landing page for 5 seconds and say what they think it does; an AI rewrite is "
+    "tested against the original and the customer gets proof of which works (refund if ours doesn't win). "
+    "Today is hackathon day: the goal is real paying customers in the next few hours and a business that "
+    "can keep growing. Given the numbers and recent agent activity, decide the price, up to 3 concrete "
+    "priorities for the Growth agent, and which audiences to target. Change the price only with a clear "
+    "reason from the data. Explain your reasoning in 2-3 sentences."
 )
 SCHEMA = {
     "type": "object",
     "additionalProperties": False,
-    "required": ["price_usd", "priorities", "target_events", "reasoning"],
+    "required": ["price_usd", "priorities", "target_audiences", "reasoning"],
     "properties": {
         "price_usd": {"type": "number"},
         "priorities": {"type": "array", "items": {"type": "string"}},
-        "target_events": {"type": "array", "items": {"type": "string"}},
+        "target_audiences": {"type": "array", "items": {"type": "string"}},
         "reasoning": {"type": "string"},
     },
 }
@@ -46,22 +47,21 @@ class CeoAgent(Agent):
         activity = "\n".join(f"- [{d.agent}] {d.action}: {d.reason[:160]}" for d in reversed(recent))
         decision = llm.ask_json(
             SYSTEM,
-            f"Numbers: {stats.model_dump_json()}\nCurrent price: ${current_price}\n"
-            f"Learned deal weights: {ctx.get_state(StateKey.deal_weights)}\nRecent activity:\n{activity}",
+            f"Numbers: {stats.model_dump_json()}\nCurrent price: ${current_price}\nRecent activity:\n{activity}",
             SCHEMA,
             mock={
                 "price_usd": current_price,
                 "priorities": [
-                    "Knicks fans hunting cheaper November tickets",
-                    "Promote the free 'tonight in NYC' page to bring visitors",
+                    "Hackathon teams polishing landing pages before the 6:45pm deadline",
+                    "Indie founders launching on Product Hunt this week",
                 ],
-                "target_events": ["Knicks", "Broadway", "concerts at MSG"],
-                "reasoning": "Too few sales to judge the price yet; focus Growth on the audience most likely "
-                "to buy today.",
+                "target_audiences": ["hackathon teams", "indie founders", "early-stage startups"],
+                "reasoning": "Too few sales to judge the price yet; focus Growth on founders who need a "
+                "clearer page today.",
             },
         )
         ctx.set_state(StateKey.priorities, decision["priorities"][:3])
-        ctx.set_state(StateKey.target_events, decision["target_events"][:5])
+        ctx.set_state(StateKey.target_audiences, decision["target_audiences"][:5])
 
         new_price = round(float(decision["price_usd"]), 2)
         if new_price != current_price and ctx.check(OutboundKind.price_change, new_price=new_price):
@@ -74,5 +74,5 @@ class CeoAgent(Agent):
             decision["reasoning"],
             stats=stats.model_dump(),
             priorities=decision["priorities"][:3],
-            target_events=decision["target_events"][:5],
+            target_audiences=decision["target_audiences"][:5],
         )

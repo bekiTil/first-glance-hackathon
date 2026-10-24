@@ -4,7 +4,7 @@ The Whop business, API key, payouts and webhook secret belong to Natnael's accou
 Other agents call these functions (always after guardrails.check_outbound); nobody
 else holds Whop credentials.
 
-  create_checkout(watch_public_id, email, price_usd) -> checkout URL
+  create_checkout(test_public_id, email, price_usd) -> checkout URL
   parse_webhook(body, headers)                        -> PaymentEvent | None
   refund(whop_payment_id, amount)                     -> bool
   update_price(price_usd)                             -> bool   (CEO agent)
@@ -21,13 +21,13 @@ from app.config import settings
 from app.schemas import PaymentEvent
 
 
-def create_checkout(watch_public_id: str, email: str, price_usd: float) -> str:
+def create_checkout(test_public_id: str, email: str, price_usd: float) -> str:
     if settings.mock_whop:
         # Simulates paying: app/api/dev.py fires the same handler a real webhook would.
-        return f"{settings.public_api_url}/api/dev/fake-pay/{watch_public_id}"
+        return f"{settings.public_api_url}/api/dev/fake-pay/{test_public_id}"
     # TODO(Natnael): create a checkout for WHOP_PLAN_ID at price_usd with
-    #   metadata {"watch_public_id": watch_public_id} (or match by email if metadata isn't
-    #   supported) and redirect back to {PUBLIC_WEB_URL}/watch/{watch_public_id}?paid=1
+    #   metadata {"test_public_id": test_public_id} (or match by email if metadata isn't
+    #   supported) and redirect back to {PUBLIC_WEB_URL}/report/{test_public_id}?paid=1
     raise NotImplementedError("set MOCK_WHOP=true or implement Whop checkout")
 
 
@@ -36,7 +36,7 @@ def parse_webhook(body: bytes, headers: dict[str, str]) -> PaymentEvent | None:
     if settings.mock_whop:
         return PaymentEvent.model_validate(json.loads(body))
     # TODO(Natnael): verify signature with WHOP_WEBHOOK_SECRET, handle payment succeeded,
-    #   map to PaymentEvent(whop_payment_id, whop_user_id, email, watch_public_id, amount).
+    #   map to PaymentEvent(whop_payment_id, whop_user_id, email, test_public_id, amount).
     raise NotImplementedError("set MOCK_WHOP=true or implement Whop webhook parsing")
 
 

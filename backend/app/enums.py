@@ -7,41 +7,36 @@ gets these through the generated OpenAPI types.
 from enum import StrEnum
 
 
-class WatchStatus(StrEnum):
-    draft = "draft"  # checklist built, customer hasn't confirmed
+class TestStatus(StrEnum):
+    draft = "draft"  # page read + rewrite made, customer hasn't paid
     awaiting_payment = "awaiting_payment"  # sent to Whop checkout
-    active = "active"  # paid, watcher is checking every 15 min
-    purchased = "purchased"  # customer said they bought
-    expired = "expired"  # events passed, at least one match was delivered
-    refunded = "refunded"  # events passed with no match -> refunded
-    cancelled = "cancelled"
+    paid = "paid"  # Finance recorded the payment; Tester will launch the Terac study
+    testing = "testing"  # real people are looking at it right now
+    delivered = "delivered"  # results graded + report emailed
+    refunded = "refunded"  # our rewrite didn't win -> money back
+    failed = "failed"  # something broke; Finance refunds
 
 
-class AlertStatus(StrEnum):
-    sent = "sent"
-    clicked = "clicked"
-    bought = "bought"
-    rejected = "rejected"  # "not what I wanted"
-    failed = "failed"  # could not deliver
+class TestKind(StrEnum):
+    customer = "customer"  # a paying customer's page
+    self = "self"  # our own landing page (Research agent dogfooding = the Terac before/after)
 
 
-class ReplyAction(StrEnum):
-    bought = "bought"  # SMS reply "1"
-    keep = "keep"  # SMS reply "2"
-    reject = "reject"  # SMS reply "3"
+class Arm(StrEnum):
+    original = "original"
+    rewrite = "rewrite"
 
 
-class RejectReason(StrEnum):
-    price_higher = "price_higher"
-    sold_out = "sold_out"
-    wrong_criteria = "wrong_criteria"
-    other = "other"
+class Winner(StrEnum):
+    original = "original"
+    rewrite = "rewrite"
+    tie = "tie"
 
 
 class JobType(StrEnum):
     payment_received = "payment_received"  # Whop webhook -> Finance
-    sms_received = "sms_received"  # Twilio inbound -> Support
-    email_reply = "email_reply"  # email button click -> Support
+    run_test = "run_test"  # payload {"test_id": public_id} -> Tester
+    support_message = "support_message"  # contact form -> Support
     run_agent = "run_agent"  # payload {"agent": AgentName} -> that agent
 
 
@@ -56,38 +51,15 @@ class AgentName(StrEnum):
     ceo = "ceo"
     growth = "growth"
     support = "support"
-    watcher = "watcher"
+    tester = "tester"
     finance = "finance"
     compliance = "compliance"
     research = "research"
 
 
-class Channel(StrEnum):
-    email = "email"
-    sms = "sms"
-
-
-class TicketSource(StrEnum):
-    seatgeek = "seatgeek"
-    ticketmaster = "ticketmaster"
-    mock = "mock"
-
-
 class PaymentStatus(StrEnum):
     succeeded = "succeeded"
     refunded = "refunded"
-
-
-class StudyKind(StrEnum):
-    deal_preferences = "deal_preferences"  # "which ticket would you buy?"
-    landing_page = "landing_page"  # "would you pay $3? what's unclear?"
-
-
-class StudyStatus(StrEnum):
-    waiting_for_public_url = "waiting_for_public_url"  # Terac needs a public https study page
-    quoted = "quoted"
-    running = "running"
-    completed = "completed"
 
 
 class OutboundKind(StrEnum):
@@ -102,12 +74,11 @@ class OutboundKind(StrEnum):
 
 
 class StateKey(StrEnum):
-    """Keys in the company_state table (the CEO writes, everyone reads)."""
+    """Keys in the company_state table (the CEO writes most; everyone reads)."""
 
     price_usd = "price_usd"
     priorities = "priorities"
-    target_events = "target_events"
-    deal_weights = "deal_weights"
+    target_audiences = "target_audiences"
+    landing_copy = "landing_copy"  # Research agent: the winning copy of OUR landing page
     ad_spend_today = "ad_spend_today"
     kill_switch = "kill_switch"
-    landing_copy = "landing_copy"  # Research agent (Yared): current landing-page copy

@@ -1,18 +1,18 @@
-// Landing page. The copy comes from the Research agent (rewritten from Terac feedback). Owner: Yared.
+// Landing page. The hero copy comes from /api/landing-copy, so the Research agent's winning
+// version (tested with real people) goes live by itself. Owner: Yared.
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, type DecisionOut, type LandingCopy } from "../api/client";
+import { api, type DecisionOut, type HeroCopy } from "../api/client";
 import { Card, timeAgo } from "../ui";
 
-const FALLBACK: LandingCopy = {
-  headline: "Tell us your max price. We'll text you when tickets drop under it.",
-  subhead: "An AI agent checks SeatGeek and Ticketmaster every 15 minutes for Knicks, Broadway and concerts.",
-  bullets: ["$3 per watch", "Refunded automatically if we never find a match", "Run entirely by AI agents"],
-  version: 1,
+const FALLBACK: HeroCopy = {
+  headline: "Do people get your startup in 5 seconds?",
+  subhead: "Real people see your landing page for 5 seconds. AI rewrites what confused them, and you get proof the new version works.",
+  cta: "Test my page for $15",
 };
 
 export default function Landing() {
-  const [copy, setCopy] = useState<LandingCopy>(FALLBACK);
+  const [copy, setCopy] = useState<HeroCopy>(FALLBACK);
   const [picks, setPicks] = useState<DecisionOut[]>([]);
 
   useEffect(() => {
@@ -27,22 +27,18 @@ export default function Landing() {
       <section className="py-14">
         <h1 className="text-4xl font-bold leading-tight sm:text-5xl">{copy.headline}</h1>
         <p className="mt-4 max-w-2xl text-lg text-slate-600">{copy.subhead}</p>
-        <ul className="mt-6 flex flex-wrap gap-2">
-          {(copy.bullets ?? []).map((b) => (
-            <li key={b} className="rounded-full bg-slate-100 px-3 py-1 text-sm">✓ {b}</li>
-          ))}
-        </ul>
-        <Link to="/watch/new"
+        <Link to="/test/new"
           className="mt-8 inline-block rounded-lg bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-700">
-          Start a watch
+          {copy.cta || "Test my page"}
         </Link>
+        <p className="mt-3 text-sm text-slate-500">Refunded automatically if our version doesn't beat yours. Run entirely by AI agents.</p>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">
         {[
-          ["1. Tell us", "“Knicks under $80, any Friday in November, 2 seats.”"],
-          ["2. Confirm + pay $3", "You check the exact checklist we'll hold ourselves to."],
-          ["3. Get alerted", "Email + text the moment a verified match appears. Buy on the official site."],
+          ["1. Paste your URL", "Plus one sentence: what you do and for whom."],
+          ["2. Real people, 5 seconds", "About 10 people see yours or our rewrite, then say what they think you do."],
+          ["3. Proof", "“3/5 understood yours, 5/5 understood ours.” Plus the copy to paste in."],
         ].map(([title, body]) => (
           <Card key={title}>
             <p className="font-semibold">{title}</p>
@@ -53,8 +49,7 @@ export default function Landing() {
 
       {picks.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-xl font-bold">Agent picks</h2>
-          <p className="text-sm text-slate-500">Written by our Growth agent. No humans involved.</p>
+          <h2 className="text-xl font-bold">From our Growth agent</h2>
           <div className="mt-3 space-y-3">
             {picks.map((p) => (
               <Card key={p.id}>
@@ -69,7 +64,6 @@ export default function Landing() {
 
       <p className="mt-10 text-sm text-slate-500">
         Every decision this company makes is public on the <Link to="/company" className="underline">Company log</Link>.
-        Looking for something free tonight? <Link to="/events" className="underline">Free in NYC</Link>.
       </p>
     </>
   );

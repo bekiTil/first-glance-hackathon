@@ -6,10 +6,10 @@ from app.agents.finance import FinanceAgent
 from app.agents.growth import GrowthAgent
 from app.agents.research import ResearchAgent
 from app.agents.support import SupportAgent
-from app.agents.watcher import WatcherAgent
+from app.agents.tester import TesterAgent
 
 ALL_AGENTS: list[Agent] = [
-    WatcherAgent(),
+    TesterAgent(),
     FinanceAgent(),
     SupportAgent(),
     CeoAgent(),

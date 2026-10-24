@@ -1,22 +1,22 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Ticket Watch API",
+    "title": "FirstGlance API",
     "version": "0.1.0"
   },
   "paths": {
-    "/api/watches": {
+    "/api/tests": {
       "post": {
         "tags": [
-          "watches"
+          "tests"
         ],
-        "summary": "Create Watch",
-        "operationId": "create_watch_api_watches_post",
+        "summary": "Create Test",
+        "operationId": "create_test_api_tests_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateWatchRequest"
+                "$ref": "#/components/schemas/CreateTestRequest"
               }
             }
           },
@@ -28,7 +28,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WatchOut"
+                  "$ref": "#/components/schemas/TestOut"
                 }
               }
             }
@@ -46,13 +46,13 @@
         }
       }
     },
-    "/api/watches/{public_id}": {
+    "/api/tests/{public_id}": {
       "get": {
         "tags": [
-          "watches"
+          "tests"
         ],
-        "summary": "Get Watch",
-        "operationId": "get_watch_api_watches__public_id__get",
+        "summary": "Get Test",
+        "operationId": "get_test_api_tests__public_id__get",
         "parameters": [
           {
             "name": "public_id",
@@ -70,57 +70,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WatchOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "watches"
-        ],
-        "summary": "Update Checklist",
-        "operationId": "update_checklist_api_watches__public_id__patch",
-        "parameters": [
-          {
-            "name": "public_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Public Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateChecklistRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WatchOut"
+                  "$ref": "#/components/schemas/TestOut"
                 }
               }
             }
@@ -138,13 +88,13 @@
         }
       }
     },
-    "/api/watches/{public_id}/confirm": {
+    "/api/tests/{public_id}/confirm": {
       "post": {
         "tags": [
-          "watches"
+          "tests"
         ],
-        "summary": "Confirm Watch",
-        "operationId": "confirm_watch_api_watches__public_id__confirm_post",
+        "summary": "Confirm Test",
+        "operationId": "confirm_test_api_tests__public_id__confirm_post",
         "parameters": [
           {
             "name": "public_id",
@@ -180,6 +130,158 @@
         }
       }
     },
+    "/api/t/{public_id}": {
+      "get": {
+        "tags": [
+          "test page"
+        ],
+        "summary": "Get Test Page",
+        "operationId": "get_test_page_api_t__public_id__get",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          },
+          {
+            "name": "participant",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Participant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestPageOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/t/{public_id}/answers": {
+      "post": {
+        "tags": [
+          "test page"
+        ],
+        "summary": "Submit Answer",
+        "operationId": "submit_answer_api_t__public_id__answers_post",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAnswerIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/landing-copy": {
+      "get": {
+        "tags": [
+          "test page"
+        ],
+        "summary": "Landing Copy",
+        "operationId": "landing_copy_api_landing_copy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HeroCopy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/self-test": {
+      "get": {
+        "tags": [
+          "test page"
+        ],
+        "summary": "Self Test",
+        "operationId": "self_test_api_self_test_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfTestOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/webhooks/whop": {
       "post": {
         "tags": [
@@ -201,57 +303,18 @@
         }
       }
     },
-    "/api/webhooks/sms": {
+    "/api/support": {
       "post": {
         "tags": [
-          "webhooks"
+          "support"
         ],
-        "summary": "Twilio Sms",
-        "operationId": "twilio_sms_api_webhooks_sms_post",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Body_twilio_sms_api_webhooks_sms_post"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/phone/send-code": {
-      "post": {
-        "tags": [
-          "phone"
-        ],
-        "summary": "Send Code",
-        "operationId": "send_code_api_phone_send_code_post",
+        "summary": "Contact",
+        "operationId": "contact_api_support_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SendCodeRequest"
+                "$ref": "#/components/schemas/SupportRequest"
               }
             }
           },
@@ -265,262 +328,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/OkOut"
                 }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/phone/verify": {
-      "post": {
-        "tags": [
-          "phone"
-        ],
-        "summary": "Verify Code",
-        "operationId": "verify_code_api_phone_verify_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VerifyCodeRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VerifyOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/me/login": {
-      "post": {
-        "tags": [
-          "me"
-        ],
-        "summary": "Login",
-        "operationId": "login_api_me_login_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OkOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/me/watches": {
-      "get": {
-        "tags": [
-          "me"
-        ],
-        "summary": "My Watches",
-        "operationId": "my_watches_api_me_watches_get",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WatchOut"
-                  },
-                  "title": "Response My Watches Api Me Watches Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/go/{token}": {
-      "get": {
-        "tags": [
-          "links"
-        ],
-        "summary": "Go",
-        "operationId": "go_go__token__get",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/reply/{token}/{action}": {
-      "get": {
-        "tags": [
-          "links"
-        ],
-        "summary": "Reply",
-        "operationId": "reply_api_reply__token___action__get",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Token"
-            }
-          },
-          {
-            "name": "action",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ReplyAction"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/proof/{token}": {
-      "get": {
-        "tags": [
-          "links"
-        ],
-        "summary": "Proof",
-        "operationId": "proof_api_proof__token__get",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
               }
             }
           },
@@ -622,169 +429,6 @@
         }
       }
     },
-    "/api/free-events": {
-      "get": {
-        "tags": [
-          "events"
-        ],
-        "summary": "Free Events",
-        "operationId": "free_events_api_free_events_get",
-        "parameters": [
-          {
-            "name": "when",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "tonight",
-              "title": "When"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FreeEvent"
-                  },
-                  "title": "Response Free Events Api Free Events Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/studies/landing-copy": {
-      "get": {
-        "tags": [
-          "studies"
-        ],
-        "summary": "Current Landing Copy",
-        "description": "The landing page reads its copy from here, so the Research agent's rewrite goes live.",
-        "operationId": "current_landing_copy_api_studies_landing_copy_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LandingCopy"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/studies/{public_id}": {
-      "get": {
-        "tags": [
-          "studies"
-        ],
-        "summary": "Get Study",
-        "operationId": "get_study_api_studies__public_id__get",
-        "parameters": [
-          {
-            "name": "public_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Public Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StudyOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/studies/{public_id}/answers": {
-      "post": {
-        "tags": [
-          "studies"
-        ],
-        "summary": "Submit Answers",
-        "operationId": "submit_answers_api_studies__public_id__answers_post",
-        "parameters": [
-          {
-            "name": "public_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Public Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StudyAnswerIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OkOut"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/dev/fake-pay/{public_id}": {
       "get": {
         "tags": [
@@ -826,13 +470,66 @@
         }
       }
     },
+    "/api/dev/fake-answers/{public_id}": {
+      "post": {
+        "tags": [
+          "dev"
+        ],
+        "summary": "Fake Answers",
+        "description": "Pretend Terac participants answered (rewrite is understood more often), so grading can be tested.",
+        "operationId": "fake_answers_api_dev_fake_answers__public_id__post",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          },
+          {
+            "name": "n",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "N"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/dev/run-worker": {
       "post": {
         "tags": [
           "dev"
         ],
         "summary": "Run Worker",
-        "description": "Run every agent once + drain jobs (instead of waiting 15 min).",
+        "description": "Run every agent once + drain jobs (instead of waiting for the schedule).",
         "operationId": "run_worker_api_dev_run_worker_post",
         "responses": {
           "200": {
@@ -877,109 +574,59 @@
           "ceo",
           "growth",
           "support",
-          "watcher",
+          "tester",
           "finance",
           "compliance",
           "research"
         ],
         "title": "AgentName"
       },
-      "Body_twilio_sms_api_webhooks_sms_post": {
-        "properties": {
-          "From": {
-            "type": "string",
-            "title": "From"
-          },
-          "Body": {
-            "type": "string",
-            "title": "Body",
-            "default": ""
-          }
-        },
-        "type": "object",
-        "required": [
-          "From"
+      "Arm": {
+        "type": "string",
+        "enum": [
+          "original",
+          "rewrite"
         ],
-        "title": "Body_twilio_sms_api_webhooks_sms_post"
+        "title": "Arm"
       },
-      "Checklist": {
+      "ArmResult": {
         "properties": {
-          "query": {
-            "type": "string",
-            "title": "Query",
-            "description": "The customer's original sentence"
-          },
-          "performer": {
-            "type": "string",
-            "title": "Performer",
-            "description": "Team/artist/show, e.g. \"New York Knicks\""
-          },
-          "venue": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Venue"
-          },
-          "date_from": {
-            "type": "string",
-            "format": "date",
-            "title": "Date From"
-          },
-          "date_to": {
-            "type": "string",
-            "format": "date",
-            "title": "Date To"
-          },
-          "weekdays": {
-            "items": {
-              "type": "integer"
-            },
-            "type": "array",
-            "title": "Weekdays",
-            "description": "0=Mon..6=Sun; empty = any day"
-          },
-          "max_price_per_ticket": {
-            "type": "number",
-            "title": "Max Price Per Ticket",
-            "description": "USD per ticket, all-in including fees"
-          },
-          "quantity": {
+          "responses": {
             "type": "integer",
-            "title": "Quantity",
-            "default": 1
+            "title": "Responses"
           },
-          "exclude_sections": {
+          "understood": {
+            "type": "integer",
+            "title": "Understood",
+            "description": "Answers Claude graded as matching what the company does"
+          },
+          "understood_rate": {
+            "type": "number",
+            "title": "Understood Rate",
+            "description": "understood / responses, 0..1"
+          },
+          "avg_signup": {
+            "type": "number",
+            "title": "Avg Signup",
+            "description": "Average 'would you sign up?' 1-5"
+          },
+          "sample_answers": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Exclude Sections",
-            "description": "e.g. [\"upper level\"]"
-          },
-          "preferences": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Preferences",
-            "description": "Soft wishes; ranked, never guaranteed"
+            "title": "Sample Answers",
+            "description": "Up to 5 verbatim answers"
           }
         },
         "type": "object",
         "required": [
-          "query",
-          "performer",
-          "date_from",
-          "date_to",
-          "max_price_per_ticket"
+          "responses",
+          "understood",
+          "understood_rate",
+          "avg_signup"
         ],
-        "title": "Checklist",
-        "description": "What the customer confirms before paying. A match = every field below is satisfied."
+        "title": "ArmResult"
       },
       "CheckoutOut": {
         "properties": {
@@ -994,45 +641,34 @@
         ],
         "title": "CheckoutOut"
       },
-      "CreateWatchRequest": {
+      "CreateTestRequest": {
         "properties": {
-          "query": {
+          "url": {
             "type": "string",
-            "minLength": 3,
-            "title": "Query",
+            "title": "Url",
             "examples": [
-              "Knicks under $80, any Friday in November, 2 seats"
+              "https://example.com"
             ]
+          },
+          "what_you_do": {
+            "type": "string",
+            "minLength": 5,
+            "title": "What You Do",
+            "description": "One sentence: what does your company do, for whom?"
           },
           "email": {
             "type": "string",
             "format": "email",
             "title": "Email"
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone",
-            "description": "E.164, e.g. +12125551234"
-          },
-          "sms_consent": {
-            "type": "boolean",
-            "title": "Sms Consent",
-            "default": false
           }
         },
         "type": "object",
         "required": [
-          "query",
+          "url",
+          "what_you_do",
           "email"
         ],
-        "title": "CreateWatchRequest"
+        "title": "CreateTestRequest"
       },
       "DecisionOut": {
         "properties": {
@@ -1073,95 +709,6 @@
         ],
         "title": "DecisionOut"
       },
-      "EventInfo": {
-        "properties": {
-          "source": {
-            "$ref": "#/components/schemas/TicketSource"
-          },
-          "external_id": {
-            "type": "string",
-            "title": "External Id"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "starts_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Starts At"
-          },
-          "venue": {
-            "type": "string",
-            "title": "Venue"
-          },
-          "url": {
-            "type": "string",
-            "title": "Url"
-          }
-        },
-        "type": "object",
-        "required": [
-          "source",
-          "external_id",
-          "name",
-          "starts_at",
-          "venue",
-          "url"
-        ],
-        "title": "EventInfo"
-      },
-      "FreeEvent": {
-        "properties": {
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "when": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "When"
-          },
-          "where": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Where"
-          },
-          "summary": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Summary"
-          }
-        },
-        "type": "object",
-        "required": [
-          "title",
-          "url"
-        ],
-        "title": "FreeEvent"
-      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -1175,7 +722,7 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "LandingCopy": {
+      "HeroCopy": {
         "properties": {
           "headline": {
             "type": "string",
@@ -1183,41 +730,22 @@
           },
           "subhead": {
             "type": "string",
-            "title": "Subhead"
+            "title": "Subhead",
+            "default": ""
           },
-          "bullets": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Bullets"
-          },
-          "version": {
-            "type": "integer",
-            "title": "Version",
-            "default": 1
-          }
-        },
-        "type": "object",
-        "required": [
-          "headline",
-          "subhead"
-        ],
-        "title": "LandingCopy"
-      },
-      "LoginRequest": {
-        "properties": {
-          "email": {
+          "cta": {
             "type": "string",
-            "format": "email",
-            "title": "Email"
+            "title": "Cta",
+            "description": "Button text, e.g. \"Start free trial\"",
+            "default": ""
           }
         },
         "type": "object",
         "required": [
-          "email"
+          "headline"
         ],
-        "title": "LoginRequest"
+        "title": "HeroCopy",
+        "description": "The top of a landing page: what a visitor sees in the first 5 seconds."
       },
       "OkOut": {
         "properties": {
@@ -1235,32 +763,52 @@
         "type": "object",
         "title": "OkOut"
       },
-      "ReplyAction": {
-        "type": "string",
-        "enum": [
-          "bought",
-          "keep",
-          "reject"
-        ],
-        "title": "ReplyAction"
-      },
-      "SendCodeRequest": {
+      "SelfTestOut": {
         "properties": {
-          "watch_id": {
-            "type": "string",
-            "title": "Watch Id"
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TestStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
-          "phone": {
-            "type": "string",
-            "title": "Phone"
+          "original": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HeroCopy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rewrite": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HeroCopy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "results": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TestResults"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
-        "required": [
-          "watch_id",
-          "phone"
-        ],
-        "title": "SendCodeRequest"
+        "title": "SelfTestOut",
+        "description": "Our own landing page's before/after (Research agent), for the Company Log page."
       },
       "Stats": {
         "properties": {
@@ -1276,30 +824,27 @@
             "type": "integer",
             "title": "Refunds"
           },
-          "watches_created": {
+          "tests_created": {
             "type": "integer",
-            "title": "Watches Created"
+            "title": "Tests Created"
           },
-          "watches_active": {
+          "tests_paid": {
             "type": "integer",
-            "title": "Watches Active"
+            "title": "Tests Paid"
           },
-          "alerts_sent": {
+          "tests_delivered": {
             "type": "integer",
-            "title": "Alerts Sent"
+            "title": "Tests Delivered"
           },
-          "clicks": {
-            "type": "integer",
-            "title": "Clicks"
-          },
-          "purchases": {
-            "type": "integer",
-            "title": "Purchases"
+          "rewrite_win_rate": {
+            "type": "number",
+            "title": "Rewrite Win Rate",
+            "description": "delivered customer tests where our rewrite won, 0..1"
           },
           "conversion_rate": {
             "type": "number",
             "title": "Conversion Rate",
-            "description": "paid watches / created watches"
+            "description": "paid tests / created tests"
           },
           "price_usd": {
             "type": "number",
@@ -1311,17 +856,48 @@
           "revenue_usd",
           "payments",
           "refunds",
-          "watches_created",
-          "watches_active",
-          "alerts_sent",
-          "clicks",
-          "purchases",
+          "tests_created",
+          "tests_paid",
+          "tests_delivered",
+          "rewrite_win_rate",
           "conversion_rate",
           "price_usd"
         ],
         "title": "Stats"
       },
-      "StudyAnswerIn": {
+      "SupportRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 2,
+            "title": "Message"
+          },
+          "test_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Test Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "message"
+        ],
+        "title": "SupportRequest"
+      },
+      "TestAnswerIn": {
         "properties": {
           "participant_ref": {
             "anyOf": [
@@ -1335,173 +911,173 @@
             "title": "Participant Ref",
             "description": "teracSubmissionId from the task URL"
           },
-          "picks": {
-            "items": {
-              "$ref": "#/components/schemas/StudyPick"
-            },
-            "type": "array",
-            "title": "Picks"
+          "arm": {
+            "$ref": "#/components/schemas/Arm",
+            "description": "The arm the test page was given by GET /api/t/{id}"
           },
-          "willingness": {
+          "answer": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Answer",
+            "description": "\"What does this company do?\""
+          },
+          "signup": {
             "type": "integer",
             "maximum": 5.0,
             "minimum": 1.0,
-            "title": "Willingness",
-            "description": "How likely to pay $3 for this (1-5)"
-          },
-          "unclear": {
-            "type": "string",
-            "title": "Unclear",
-            "default": ""
+            "title": "Signup",
+            "description": "\"How likely are you to sign up?\" 1-5"
           }
         },
         "type": "object",
         "required": [
-          "picks",
-          "willingness"
+          "arm",
+          "answer",
+          "signup"
         ],
-        "title": "StudyAnswerIn"
+        "title": "TestAnswerIn"
       },
-      "StudyOption": {
-        "properties": {
-          "label": {
-            "type": "string",
-            "title": "Label",
-            "description": "\"A\" | \"B\" | \"C\""
-          },
-          "price": {
-            "type": "number",
-            "title": "Price"
-          },
-          "section": {
-            "type": "string",
-            "title": "Section"
-          },
-          "lower_level": {
-            "type": "boolean",
-            "title": "Lower Level"
-          },
-          "day": {
-            "type": "string",
-            "title": "Day",
-            "description": "e.g. \"Fri Nov 13\""
-          },
-          "weekend": {
-            "type": "boolean",
-            "title": "Weekend"
-          }
-        },
-        "type": "object",
-        "required": [
-          "label",
-          "price",
-          "section",
-          "lower_level",
-          "day",
-          "weekend"
-        ],
-        "title": "StudyOption"
-      },
-      "StudyOut": {
+      "TestOut": {
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id"
+            "title": "Id",
+            "description": "public id (never the DB integer)"
           },
-          "round": {
-            "type": "integer",
-            "title": "Round"
+          "status": {
+            "$ref": "#/components/schemas/TestStatus"
           },
-          "sets": {
-            "items": {
-              "$ref": "#/components/schemas/StudySet"
-            },
-            "type": "array",
-            "title": "Sets"
+          "url": {
+            "type": "string",
+            "title": "Url"
           },
-          "landing": {
-            "$ref": "#/components/schemas/LandingCopy"
+          "what_you_do": {
+            "type": "string",
+            "title": "What You Do"
+          },
+          "original": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HeroCopy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rewrite": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HeroCopy"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "price_usd": {
             "type": "number",
             "title": "Price Usd"
+          },
+          "responses_so_far": {
+            "type": "integer",
+            "title": "Responses So Far",
+            "default": 0
+          },
+          "results": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TestResults"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
           }
         },
         "type": "object",
         "required": [
           "id",
-          "round",
-          "sets",
-          "landing",
-          "price_usd"
+          "status",
+          "url",
+          "what_you_do",
+          "price_usd",
+          "created_at"
         ],
-        "title": "StudyOut",
-        "description": "What the /study/:id page shows a Terac participant."
+        "title": "TestOut",
+        "description": "A customer's test, shown on the order page and the report page."
       },
-      "StudyPick": {
+      "TestPageOut": {
         "properties": {
-          "set": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "arm": {
+            "$ref": "#/components/schemas/Arm"
+          },
+          "hero": {
+            "$ref": "#/components/schemas/HeroCopy"
+          },
+          "seconds": {
             "type": "integer",
-            "title": "Set"
-          },
-          "option": {
-            "type": "string",
-            "title": "Option"
-          },
-          "why": {
-            "type": "string",
-            "title": "Why",
-            "default": ""
+            "title": "Seconds",
+            "default": 5
           }
         },
         "type": "object",
         "required": [
-          "set",
-          "option"
+          "id",
+          "arm",
+          "hero"
         ],
-        "title": "StudyPick"
+        "title": "TestPageOut",
+        "description": "What one Terac participant sees on /t/{id}: ONE arm, for `seconds` seconds."
       },
-      "StudySet": {
+      "TestResults": {
         "properties": {
-          "event": {
-            "type": "string",
-            "title": "Event"
+          "original": {
+            "$ref": "#/components/schemas/ArmResult"
           },
-          "options": {
-            "items": {
-              "$ref": "#/components/schemas/StudyOption"
-            },
-            "type": "array",
-            "title": "Options"
+          "rewrite": {
+            "$ref": "#/components/schemas/ArmResult"
+          },
+          "winner": {
+            "$ref": "#/components/schemas/Winner"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "description": "One sentence, e.g. \"3/5 understood yours, 5/5 understood ours\""
           }
         },
         "type": "object",
         "required": [
-          "event",
-          "options"
+          "original",
+          "rewrite",
+          "winner",
+          "summary"
         ],
-        "title": "StudySet"
+        "title": "TestResults"
       },
-      "TicketSource": {
+      "TestStatus": {
         "type": "string",
         "enum": [
-          "seatgeek",
-          "ticketmaster",
-          "mock"
+          "draft",
+          "awaiting_payment",
+          "paid",
+          "testing",
+          "delivered",
+          "refunded",
+          "failed"
         ],
-        "title": "TicketSource"
-      },
-      "UpdateChecklistRequest": {
-        "properties": {
-          "checklist": {
-            "$ref": "#/components/schemas/Checklist"
-          }
-        },
-        "type": "object",
-        "required": [
-          "checklist"
-        ],
-        "title": "UpdateChecklistRequest"
+        "title": "TestStatus"
       },
       "ValidationError": {
         "properties": {
@@ -1543,102 +1119,14 @@
         ],
         "title": "ValidationError"
       },
-      "VerifyCodeRequest": {
-        "properties": {
-          "phone": {
-            "type": "string",
-            "title": "Phone"
-          },
-          "code": {
-            "type": "string",
-            "title": "Code"
-          }
-        },
-        "type": "object",
-        "required": [
-          "phone",
-          "code"
-        ],
-        "title": "VerifyCodeRequest"
-      },
-      "VerifyOut": {
-        "properties": {
-          "verified": {
-            "type": "boolean",
-            "title": "Verified"
-          }
-        },
-        "type": "object",
-        "required": [
-          "verified"
-        ],
-        "title": "VerifyOut"
-      },
-      "WatchOut": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "public id (never the DB integer)"
-          },
-          "status": {
-            "$ref": "#/components/schemas/WatchStatus"
-          },
-          "checklist": {
-            "$ref": "#/components/schemas/Checklist"
-          },
-          "questions": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Questions",
-            "description": "Follow-ups if the request was missing info"
-          },
-          "events": {
-            "items": {
-              "$ref": "#/components/schemas/EventInfo"
-            },
-            "type": "array",
-            "title": "Events"
-          },
-          "price_usd": {
-            "type": "number",
-            "title": "Price Usd"
-          },
-          "phone_verified": {
-            "type": "boolean",
-            "title": "Phone Verified",
-            "default": false
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "checklist",
-          "price_usd",
-          "created_at"
-        ],
-        "title": "WatchOut"
-      },
-      "WatchStatus": {
+      "Winner": {
         "type": "string",
         "enum": [
-          "draft",
-          "awaiting_payment",
-          "active",
-          "purchased",
-          "expired",
-          "refunded",
-          "cancelled"
+          "original",
+          "rewrite",
+          "tie"
         ],
-        "title": "WatchStatus"
+        "title": "Winner"
       }
     }
   }

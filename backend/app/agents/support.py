@@ -1,15 +1,13 @@
 """Sales & support agent. Owner: Natnael.
 
 TODO(Natnael): implement run(). Spec:
-- Consumes jobs: email_reply (payload ReplyIn with alert_id + action) and sms_received (ReplyIn with
-  phone + text). Texts "1"/"2"/"3" map to ReplyAction bought/keep/reject.
-- bought: Alert.status=bought, Watch.status=purchased, Outcome(bought=True). keep: Outcome(bought=False).
-  reject: Alert.status=rejected, Outcome with a RejectReason; judge it against the saved alert.listing
-  + screenshot ("higher at checkout" / "sold out within ~15 min" = not a match; a new wish = still a match).
-- "STOP" -> customer.sms_consent=False. Any other text -> answer with llm.ask_text and reply by
-  notify.send_sms, only if ctx.check(OutboundKind.sms, ...) allows.
-- Never refund here: refunds are decided only by the Finance agent from our own records.
-- ctx.log(...) every decision (no emails/phone numbers in the data).
+- Consumes support_message jobs (payload = schemas.SupportRequest from the contact form).
+- Answer with llm.ask_text: what FirstGlance is ($15, ~10 real people see your page for 5 seconds,
+  AI rewrite tested against yours, refund if ours doesn't win), how long it takes, where their
+  report is ({PUBLIC_WEB_URL}/report/<test_id> if given). Never promise things we don't do.
+- Send with notify.send_email only if ctx.check(OutboundKind.email, answer) allows.
+- Refund requests: explain the automatic guarantee; never refund here (Finance decides from records).
+- ctx.log("answered_customer", ...) without the customer's email in data.
 """
 
 from app.agents.base import Agent, AgentContext
@@ -19,7 +17,7 @@ from app.models import Job
 
 class SupportAgent(Agent):
     name = AgentName.support
-    handles = (JobType.email_reply, JobType.sms_received)
+    handles = (JobType.support_message,)
 
     def run(self, ctx: AgentContext, job: Job | None = None) -> None:
         raise NotImplementedError("TODO(Natnael): support")

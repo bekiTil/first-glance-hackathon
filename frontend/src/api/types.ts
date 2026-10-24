@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/watches": {
+    "/api/tests": {
         parameters: {
             query?: never;
             header?: never;
@@ -13,33 +13,32 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Create Watch */
-        post: operations["create_watch_api_watches_post"];
+        /** Create Test */
+        post: operations["create_test_api_tests_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/watches/{public_id}": {
+    "/api/tests/{public_id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Watch */
-        get: operations["get_watch_api_watches__public_id__get"];
+        /** Get Test */
+        get: operations["get_test_api_tests__public_id__get"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        /** Update Checklist */
-        patch: operations["update_checklist_api_watches__public_id__patch"];
+        patch?: never;
         trace?: never;
     };
-    "/api/watches/{public_id}/confirm": {
+    "/api/tests/{public_id}/confirm": {
         parameters: {
             query?: never;
             header?: never;
@@ -48,8 +47,76 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Confirm Watch */
-        post: operations["confirm_watch_api_watches__public_id__confirm_post"];
+        /** Confirm Test */
+        post: operations["confirm_test_api_tests__public_id__confirm_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/t/{public_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Test Page */
+        get: operations["get_test_page_api_t__public_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/t/{public_id}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit Answer */
+        post: operations["submit_answer_api_t__public_id__answers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/landing-copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Landing Copy */
+        get: operations["landing_copy_api_landing_copy_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/self-test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Self Test */
+        get: operations["self_test_api_self_test_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -73,7 +140,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/webhooks/sms": {
+    "/api/support": {
         parameters: {
             query?: never;
             header?: never;
@@ -82,127 +149,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Twilio Sms */
-        post: operations["twilio_sms_api_webhooks_sms_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/phone/send-code": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Send Code */
-        post: operations["send_code_api_phone_send_code_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/phone/verify": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Verify Code */
-        post: operations["verify_code_api_phone_verify_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/me/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Login */
-        post: operations["login_api_me_login_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/me/watches": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** My Watches */
-        get: operations["my_watches_api_me_watches_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/go/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Go */
-        get: operations["go_go__token__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/reply/{token}/{action}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Reply */
-        get: operations["reply_api_reply__token___action__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/proof/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Proof */
-        get: operations["proof_api_proof__token__get"];
-        put?: never;
-        post?: never;
+        /** Contact */
+        post: operations["contact_api_support_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -243,77 +191,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/free-events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Free Events */
-        get: operations["free_events_api_free_events_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/studies/landing-copy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Current Landing Copy
-         * @description The landing page reads its copy from here, so the Research agent's rewrite goes live.
-         */
-        get: operations["current_landing_copy_api_studies_landing_copy_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/studies/{public_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Study */
-        get: operations["get_study_api_studies__public_id__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/studies/{public_id}/answers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Submit Answers */
-        post: operations["submit_answers_api_studies__public_id__answers_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/dev/fake-pay/{public_id}": {
         parameters: {
             query?: never;
@@ -334,6 +211,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/dev/fake-answers/{public_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Fake Answers
+         * @description Pretend Terac participants answered (rewrite is understood more often), so grading can be tested.
+         */
+        post: operations["fake_answers_api_dev_fake_answers__public_id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/dev/run-worker": {
         parameters: {
             query?: never;
@@ -345,7 +242,7 @@ export interface paths {
         put?: never;
         /**
          * Run Worker
-         * @description Run every agent once + drain jobs (instead of waiting 15 min).
+         * @description Run every agent once + drain jobs (instead of waiting for the schedule).
          */
         post: operations["run_worker_api_dev_run_worker_post"];
         delete?: never;
@@ -379,97 +276,59 @@ export interface components {
          * AgentName
          * @enum {string}
          */
-        AgentName: "ceo" | "growth" | "support" | "watcher" | "finance" | "compliance" | "research";
-        /** Body_twilio_sms_api_webhooks_sms_post */
-        Body_twilio_sms_api_webhooks_sms_post: {
-            /** From */
-            From: string;
-            /**
-             * Body
-             * @default
-             */
-            Body: string;
-        };
+        AgentName: "ceo" | "growth" | "support" | "tester" | "finance" | "compliance" | "research";
         /**
-         * Checklist
-         * @description What the customer confirms before paying. A match = every field below is satisfied.
+         * Arm
+         * @enum {string}
          */
-        Checklist: {
+        Arm: "original" | "rewrite";
+        /** ArmResult */
+        ArmResult: {
+            /** Responses */
+            responses: number;
             /**
-             * Query
-             * @description The customer's original sentence
+             * Understood
+             * @description Answers Claude graded as matching what the company does
              */
-            query: string;
+            understood: number;
             /**
-             * Performer
-             * @description Team/artist/show, e.g. "New York Knicks"
+             * Understood Rate
+             * @description understood / responses, 0..1
              */
-            performer: string;
-            /** Venue */
-            venue?: string | null;
+            understood_rate: number;
             /**
-             * Date From
-             * Format: date
+             * Avg Signup
+             * @description Average 'would you sign up?' 1-5
              */
-            date_from: string;
+            avg_signup: number;
             /**
-             * Date To
-             * Format: date
+             * Sample Answers
+             * @description Up to 5 verbatim answers
              */
-            date_to: string;
-            /**
-             * Weekdays
-             * @description 0=Mon..6=Sun; empty = any day
-             */
-            weekdays?: number[];
-            /**
-             * Max Price Per Ticket
-             * @description USD per ticket, all-in including fees
-             */
-            max_price_per_ticket: number;
-            /**
-             * Quantity
-             * @default 1
-             */
-            quantity: number;
-            /**
-             * Exclude Sections
-             * @description e.g. ["upper level"]
-             */
-            exclude_sections?: string[];
-            /**
-             * Preferences
-             * @description Soft wishes; ranked, never guaranteed
-             */
-            preferences?: string[];
+            sample_answers?: string[];
         };
         /** CheckoutOut */
         CheckoutOut: {
             /** Checkout Url */
             checkout_url: string;
         };
-        /** CreateWatchRequest */
-        CreateWatchRequest: {
+        /** CreateTestRequest */
+        CreateTestRequest: {
             /**
-             * Query
-             * @example Knicks under $80, any Friday in November, 2 seats
+             * Url
+             * @example https://example.com
              */
-            query: string;
+            url: string;
+            /**
+             * What You Do
+             * @description One sentence: what does your company do, for whom?
+             */
+            what_you_do: string;
             /**
              * Email
              * Format: email
              */
             email: string;
-            /**
-             * Phone
-             * @description E.164, e.g. +12125551234
-             */
-            phone?: string | null;
-            /**
-             * Sms Consent
-             * @default false
-             */
-            sms_consent: boolean;
         };
         /** DecisionOut */
         DecisionOut: {
@@ -490,62 +349,29 @@ export interface components {
              */
             created_at: string;
         };
-        /** EventInfo */
-        EventInfo: {
-            source: components["schemas"]["TicketSource"];
-            /** External Id */
-            external_id: string;
-            /** Name */
-            name: string;
-            /**
-             * Starts At
-             * Format: date-time
-             */
-            starts_at: string;
-            /** Venue */
-            venue: string;
-            /** Url */
-            url: string;
-        };
-        /** FreeEvent */
-        FreeEvent: {
-            /** Title */
-            title: string;
-            /** Url */
-            url: string;
-            /** When */
-            when?: string | null;
-            /** Where */
-            where?: string | null;
-            /** Summary */
-            summary?: string | null;
-        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
-        /** LandingCopy */
-        LandingCopy: {
+        /**
+         * HeroCopy
+         * @description The top of a landing page: what a visitor sees in the first 5 seconds.
+         */
+        HeroCopy: {
             /** Headline */
             headline: string;
-            /** Subhead */
+            /**
+             * Subhead
+             * @default
+             */
             subhead: string;
-            /** Bullets */
-            bullets?: string[];
             /**
-             * Version
-             * @default 1
+             * Cta
+             * @description Button text, e.g. "Start free trial"
+             * @default
              */
-            version: number;
-        };
-        /** LoginRequest */
-        LoginRequest: {
-            /**
-             * Email
-             * Format: email
-             */
-            email: string;
+            cta: string;
         };
         /** OkOut */
         OkOut: {
@@ -561,16 +387,14 @@ export interface components {
             message: string;
         };
         /**
-         * ReplyAction
-         * @enum {string}
+         * SelfTestOut
+         * @description Our own landing page's before/after (Research agent), for the Company Log page.
          */
-        ReplyAction: "bought" | "keep" | "reject";
-        /** SendCodeRequest */
-        SendCodeRequest: {
-            /** Watch Id */
-            watch_id: string;
-            /** Phone */
-            phone: string;
+        SelfTestOut: {
+            status?: components["schemas"]["TestStatus"] | null;
+            original?: components["schemas"]["HeroCopy"] | null;
+            rewrite?: components["schemas"]["HeroCopy"] | null;
+            results?: components["schemas"]["TestResults"] | null;
         };
         /** Stats */
         Stats: {
@@ -580,108 +404,119 @@ export interface components {
             payments: number;
             /** Refunds */
             refunds: number;
-            /** Watches Created */
-            watches_created: number;
-            /** Watches Active */
-            watches_active: number;
-            /** Alerts Sent */
-            alerts_sent: number;
-            /** Clicks */
-            clicks: number;
-            /** Purchases */
-            purchases: number;
+            /** Tests Created */
+            tests_created: number;
+            /** Tests Paid */
+            tests_paid: number;
+            /** Tests Delivered */
+            tests_delivered: number;
+            /**
+             * Rewrite Win Rate
+             * @description delivered customer tests where our rewrite won, 0..1
+             */
+            rewrite_win_rate: number;
             /**
              * Conversion Rate
-             * @description paid watches / created watches
+             * @description paid tests / created tests
              */
             conversion_rate: number;
             /** Price Usd */
             price_usd: number;
         };
-        /** StudyAnswerIn */
-        StudyAnswerIn: {
+        /** SupportRequest */
+        SupportRequest: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Message */
+            message: string;
+            /** Test Id */
+            test_id?: string | null;
+        };
+        /** TestAnswerIn */
+        TestAnswerIn: {
             /**
              * Participant Ref
              * @description teracSubmissionId from the task URL
              */
             participant_ref?: string | null;
-            /** Picks */
-            picks: components["schemas"]["StudyPick"][];
+            /** @description The arm the test page was given by GET /api/t/{id} */
+            arm: components["schemas"]["Arm"];
             /**
-             * Willingness
-             * @description How likely to pay $3 for this (1-5)
+             * Answer
+             * @description "What does this company do?"
              */
-            willingness: number;
+            answer: string;
             /**
-             * Unclear
-             * @default
+             * Signup
+             * @description "How likely are you to sign up?" 1-5
              */
-            unclear: string;
-        };
-        /** StudyOption */
-        StudyOption: {
-            /**
-             * Label
-             * @description "A" | "B" | "C"
-             */
-            label: string;
-            /** Price */
-            price: number;
-            /** Section */
-            section: string;
-            /** Lower Level */
-            lower_level: boolean;
-            /**
-             * Day
-             * @description e.g. "Fri Nov 13"
-             */
-            day: string;
-            /** Weekend */
-            weekend: boolean;
+            signup: number;
         };
         /**
-         * StudyOut
-         * @description What the /study/:id page shows a Terac participant.
+         * TestOut
+         * @description A customer's test, shown on the order page and the report page.
          */
-        StudyOut: {
-            /** Id */
+        TestOut: {
+            /**
+             * Id
+             * @description public id (never the DB integer)
+             */
             id: string;
-            /** Round */
-            round: number;
-            /** Sets */
-            sets: components["schemas"]["StudySet"][];
-            landing: components["schemas"]["LandingCopy"];
+            status: components["schemas"]["TestStatus"];
+            /** Url */
+            url: string;
+            /** What You Do */
+            what_you_do: string;
+            original?: components["schemas"]["HeroCopy"] | null;
+            rewrite?: components["schemas"]["HeroCopy"] | null;
             /** Price Usd */
             price_usd: number;
-        };
-        /** StudyPick */
-        StudyPick: {
-            /** Set */
-            set: number;
-            /** Option */
-            option: string;
             /**
-             * Why
-             * @default
+             * Responses So Far
+             * @default 0
              */
-            why: string;
-        };
-        /** StudySet */
-        StudySet: {
-            /** Event */
-            event: string;
-            /** Options */
-            options: components["schemas"]["StudyOption"][];
+            responses_so_far: number;
+            results?: components["schemas"]["TestResults"] | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
         };
         /**
-         * TicketSource
+         * TestPageOut
+         * @description What one Terac participant sees on /t/{id}: ONE arm, for `seconds` seconds.
+         */
+        TestPageOut: {
+            /** Id */
+            id: string;
+            arm: components["schemas"]["Arm"];
+            hero: components["schemas"]["HeroCopy"];
+            /**
+             * Seconds
+             * @default 5
+             */
+            seconds: number;
+        };
+        /** TestResults */
+        TestResults: {
+            original: components["schemas"]["ArmResult"];
+            rewrite: components["schemas"]["ArmResult"];
+            winner: components["schemas"]["Winner"];
+            /**
+             * Summary
+             * @description One sentence, e.g. "3/5 understood yours, 5/5 understood ours"
+             */
+            summary: string;
+        };
+        /**
+         * TestStatus
          * @enum {string}
          */
-        TicketSource: "seatgeek" | "ticketmaster" | "mock";
-        /** UpdateChecklistRequest */
-        UpdateChecklistRequest: {
-            checklist: components["schemas"]["Checklist"];
-        };
+        TestStatus: "draft" | "awaiting_payment" | "paid" | "testing" | "delivered" | "refunded" | "failed";
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -695,52 +530,11 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
-        /** VerifyCodeRequest */
-        VerifyCodeRequest: {
-            /** Phone */
-            phone: string;
-            /** Code */
-            code: string;
-        };
-        /** VerifyOut */
-        VerifyOut: {
-            /** Verified */
-            verified: boolean;
-        };
-        /** WatchOut */
-        WatchOut: {
-            /**
-             * Id
-             * @description public id (never the DB integer)
-             */
-            id: string;
-            status: components["schemas"]["WatchStatus"];
-            checklist: components["schemas"]["Checklist"];
-            /**
-             * Questions
-             * @description Follow-ups if the request was missing info
-             */
-            questions?: string[];
-            /** Events */
-            events?: components["schemas"]["EventInfo"][];
-            /** Price Usd */
-            price_usd: number;
-            /**
-             * Phone Verified
-             * @default false
-             */
-            phone_verified: boolean;
-            /**
-             * Created At
-             * Format: date-time
-             */
-            created_at: string;
-        };
         /**
-         * WatchStatus
+         * Winner
          * @enum {string}
          */
-        WatchStatus: "draft" | "awaiting_payment" | "active" | "purchased" | "expired" | "refunded" | "cancelled";
+        Winner: "original" | "rewrite" | "tie";
     };
     responses: never;
     parameters: never;
@@ -750,7 +544,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    create_watch_api_watches_post: {
+    create_test_api_tests_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -759,7 +553,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateWatchRequest"];
+                "application/json": components["schemas"]["CreateTestRequest"];
             };
         };
         responses: {
@@ -769,7 +563,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["WatchOut"];
+                    "application/json": components["schemas"]["TestOut"];
                 };
             };
             /** @description Validation Error */
@@ -783,7 +577,7 @@ export interface operations {
             };
         };
     };
-    get_watch_api_watches__public_id__get: {
+    get_test_api_tests__public_id__get: {
         parameters: {
             query?: never;
             header?: never;
@@ -800,7 +594,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["WatchOut"];
+                    "application/json": components["schemas"]["TestOut"];
                 };
             };
             /** @description Validation Error */
@@ -814,42 +608,7 @@ export interface operations {
             };
         };
     };
-    update_checklist_api_watches__public_id__patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                public_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateChecklistRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["WatchOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    confirm_watch_api_watches__public_id__confirm_post: {
+    confirm_test_api_tests__public_id__confirm_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -880,6 +639,114 @@ export interface operations {
             };
         };
     };
+    get_test_page_api_t__public_id__get: {
+        parameters: {
+            query?: {
+                participant?: string | null;
+            };
+            header?: never;
+            path: {
+                public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TestPageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_answer_api_t__public_id__answers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TestAnswerIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    landing_copy_api_landing_copy_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HeroCopy"];
+                };
+            };
+        };
+    };
+    self_test_api_self_test_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SelfTestOut"];
+                };
+            };
+        };
+    };
     whop_webhook_api_webhooks_whop_post: {
         parameters: {
             query?: never;
@@ -900,7 +767,7 @@ export interface operations {
             };
         };
     };
-    twilio_sms_api_webhooks_sms_post: {
+    contact_api_support_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -909,40 +776,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/x-www-form-urlencoded": components["schemas"]["Body_twilio_sms_api_webhooks_sms_post"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    send_code_api_phone_send_code_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendCodeRequest"];
+                "application/json": components["schemas"]["SupportRequest"];
             };
         };
         responses: {
@@ -953,197 +787,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["OkOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    verify_code_api_phone_verify_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VerifyCodeRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VerifyOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    login_api_me_login_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OkOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    my_watches_api_me_watches_get: {
-        parameters: {
-            query: {
-                token: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["WatchOut"][];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    go_go__token__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                token: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    reply_api_reply__token___action__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                token: string;
-                action: components["schemas"]["ReplyAction"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    proof_api_proof__token__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                token: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -1209,123 +852,6 @@ export interface operations {
             };
         };
     };
-    free_events_api_free_events_get: {
-        parameters: {
-            query?: {
-                when?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["FreeEvent"][];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    current_landing_copy_api_studies_landing_copy_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["LandingCopy"];
-                };
-            };
-        };
-    };
-    get_study_api_studies__public_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                public_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["StudyOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    submit_answers_api_studies__public_id__answers_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                public_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["StudyAnswerIn"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OkOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
     fake_pay_api_dev_fake_pay__public_id__get: {
         parameters: {
             query?: never;
@@ -1344,6 +870,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    fake_answers_api_dev_fake_answers__public_id__post: {
+        parameters: {
+            query?: {
+                n?: number;
+            };
+            header?: never;
+            path: {
+                public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
                 };
             };
             /** @description Validation Error */

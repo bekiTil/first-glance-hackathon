@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.api import company, events, links, me, phone, studies, watches, webhooks
+from app.api import company, support, testpage, tests, webhooks
 from app.config import REPO_ROOT, settings
 from app.db import init_db
 
@@ -26,7 +26,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Ticket Watch API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="FirstGlance API", version="0.1.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.public_web_url],
@@ -34,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for module in (watches, webhooks, phone, me, links, company, events, studies):
+for module in (tests, testpage, webhooks, support, company):
     app.include_router(module.router)
 if settings.mock_whop:
     from app.api import dev

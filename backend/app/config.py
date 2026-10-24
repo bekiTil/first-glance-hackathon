@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # Core (Bereket)
     app_env: str = "dev"
     database_url: str = f"sqlite:///{BACKEND_DIR / 'dev.db'}"
-    public_web_url: str = "http://localhost:5173"  # where the React site lives
+    public_web_url: str = "http://localhost:5173"  # the React site; MUST be public https for Terac
     public_api_url: str = "http://localhost:8000"  # used for links in emails/texts
     secret_key: str = "dev-secret-change-me"
     data_dir: Path = BACKEND_DIR / "data"  # screenshots / proofs
@@ -29,14 +29,13 @@ class Settings(BaseSettings):
     claude_effort: str = "medium"
     mock_llm: bool = True
 
-    # Tickets + verification (Bereket)
-    seatgeek_client_id: str = ""
-    seatgeek_client_secret: str = ""
-    ticketmaster_api_key: str = ""
-    mock_tickets: bool = True
-    watch_interval_minutes: int = 15
+    # Page reading + testing (Bereket)
     solari_api_key: str = ""
     mock_solari: bool = True
+    test_participants: int = 10  # per test, split evenly between original and rewrite
+    test_seconds: int = 5  # how long each participant sees the page
+    min_answers_per_arm: int = 4  # grade once both arms have this many...
+    test_timeout_minutes: int = 120  # ...or after this long, with whatever answers came in
 
     # Whop: Natnael ONLY (his account). Never set these on anyone else's machine.
     whop_api_key: str = ""
@@ -48,7 +47,7 @@ class Settings(BaseSettings):
 
     # Email + text (Natnael)
     resend_api_key: str = ""
-    email_from: str = "Ticket Watch <alerts@example.com>"
+    email_from: str = "FirstGlance <hello@example.com>"
     twilio_account_sid: str = ""
     twilio_auth_token: str = ""
     twilio_from_number: str = ""
@@ -59,14 +58,13 @@ class Settings(BaseSettings):
     mock_exa: bool = True
     terac_api_key: str = ""
     mock_terac: bool = True
-    terac_participants: int = 15
-    bluesky_handle: str = ""  # e.g. ticketwatch.bsky.social; empty = Growth posts only on our site
+    bluesky_handle: str = ""  # e.g. firstglance.bsky.social; empty = Growth posts only on our site
     bluesky_app_password: str = ""
 
     # Guardrails (Bereket). Agents can never go outside these.
-    starting_price_usd: float = 3.0
-    price_min_usd: float = 1.0
-    price_max_usd: float = 5.0
+    starting_price_usd: float = 15.0
+    price_min_usd: float = 5.0
+    price_max_usd: float = 30.0
     price_change_cooldown_minutes: int = 60
     ad_budget_usd_per_day: float = 20.0
     kill_switch: bool = False

@@ -11,7 +11,7 @@ meta keys by kind:
 
 TODO(Bereket): implement _evaluate(). Required rules:
 - kill switch (settings.kill_switch or company_state["kill_switch"]) blocks everything
-- banned claims (we never buy tickets for people, no "guaranteed tickets")
+- banned claims: no guaranteed conversion numbers, no fake testimonials, no invented stats
 - sms only with consent + verified phone
 - price only between PRICE_MIN_USD and PRICE_MAX_USD, at most one change per PRICE_CHANGE_COOLDOWN_MINUTES
 - ad spend per day <= AD_BUDGET_USD_PER_DAY (company_state["ad_spend_today"])

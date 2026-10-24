@@ -1,21 +1,24 @@
-"""Request -> checklist (part of the Watcher). Owner: Bereket.
+"""Read a customer's page + write our rewrite. Owner: Bereket.
 
-TODO(Bereket): implement build_checklist(). Spec:
-- Called synchronously by POST /api/watches (the customer is waiting on the page).
-- Use llm.ask_json(system, prompt, schema, mock=...) to turn the sentence into the fields of
-  schemas.Checklist (except `query`) plus a list of follow-up `questions` for anything missing
-  (price, quantity, what/when). Give the model today's date so dates come back absolute.
-- Structured-output schema rules: every object needs "additionalProperties": false and a full
-  "required" list; optional values use {"anyOf": [{"type": "string"}, {"type": "null"}]}.
-- Requirements only from what the customer said; soft wishes go in `preferences`.
-- Pass a realistic `mock=` dict so MOCK_LLM=true still works.
+Called synchronously by POST /api/tests (the customer is waiting on the page, keep it < ~20 s).
+
+TODO(Bereket): implement both. Spec:
+- read_hero(url): fetch the page (httpx, follow redirects, browser-like User-Agent, 10 s timeout);
+  pull the visible hero: <h1> (or og:title / <title>), the first meaningful paragraph or meta
+  description, and the main button text. If the HTML is empty (JS-rendered site), use Solari to
+  render it. Optionally llm.ask_json to pick the right pieces from the page text. Return HeroCopy.
+  Raise ValueError("couldn't read that page") for unreachable/private pages (API returns 422).
+- write_rewrite(original, what_you_do): llm.ask_json -> HeroCopy that a stranger would understand
+  in 5 seconds: say WHAT it is and FOR WHOM in plain words, keep their tone, no hype, no invented
+  claims, similar length. Pass a realistic mock= so MOCK_LLM=true still works.
 """
 
-from datetime import date
-
-from app.schemas import Checklist
+from app.schemas import HeroCopy
 
 
-def build_checklist(query: str, today: date) -> tuple[Checklist, list[str]]:
-    """Returns (checklist, follow_up_questions)."""
-    raise NotImplementedError("TODO(Bereket): intake")
+def read_hero(url: str) -> HeroCopy:
+    raise NotImplementedError("TODO(Bereket): read_hero")
+
+
+def write_rewrite(original: HeroCopy, what_you_do: str) -> HeroCopy:
+    raise NotImplementedError("TODO(Bereket): write_rewrite")
