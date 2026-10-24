@@ -45,7 +45,6 @@ You need **[uv](https://docs.astral.sh/uv/getting-started/installation/)** (it i
 
 ```bash
 git clone https://github.com/bekiTil/first-glance-hackathon.git && cd first-glance-hackathon
-git switch Firstglance
 cp .env.example .env            # Windows: copy .env.example .env
 
 cd backend
@@ -122,7 +121,7 @@ then commit `openapi.json` and `types.ts` together. After a column change, delet
 
 ## Git workflow
 
-- Work on `Firstglance` (or `yourname/task` branches off it). Edit only the files you own; ask the owner for contract changes.
+- Work on `main` (or short `yourname/task` branches off it). Edit only the files you own; ask the owner for contract changes.
 - `git pull --rebase` before you push, and push **at least every ~45 minutes**, small and often.
 - Run `uv run pytest -q` (backend) or `npm run build` (frontend) before pushing.
 - **Never commit `.env` or keys.** Share keys privately.
