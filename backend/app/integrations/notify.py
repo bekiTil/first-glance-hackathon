@@ -11,27 +11,32 @@ number, which can only text pre-verified numbers (fine for the demo).
 import logging
 import uuid
 
+import resend
+from twilio.rest import Client
+
 from app.config import settings
 
 log = logging.getLogger(__name__)
 
 OUTBOX: list[dict] = []
+_twilio: Client | None = None
 
 
 def send_email(to: str, subject: str, html: str) -> str:
     if settings.mock_notify:
         return _mock("email", to, f"{subject}\n{html}")
-    # TODO(Natnael): send with Resend (package `resend`, already a dependency) from
-    #   settings.email_from using settings.resend_api_key; return Resend's message id.
-    raise NotImplementedError("set MOCK_NOTIFY=true or implement Resend email")
+    resend.api_key = settings.resend_api_key
+    sent = resend.Emails.send({"from": settings.email_from, "to": [to], "subject": subject, "html": html})
+    return sent["id"]
 
 
 def send_sms(to: str, body: str) -> str:
     if settings.mock_notify:
         return _mock("sms", to, body)
-    # TODO(Natnael): send with Twilio (package `twilio`, already a dependency) from
-    #   settings.twilio_from_number; return the message SID.
-    raise NotImplementedError("set MOCK_NOTIFY=true or implement Twilio text")
+    global _twilio
+    if _twilio is None:
+        _twilio = Client(settings.twilio_account_sid, settings.twilio_auth_token)
+    return _twilio.messages.create(to=to, from_=settings.twilio_from_number, body=body).sid
 
 
 def _mock(channel: str, to: str, body: str) -> str:
