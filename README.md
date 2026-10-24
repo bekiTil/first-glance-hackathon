@@ -19,7 +19,7 @@ automatically**. We also run FirstGlance on our own landing page; that's our Ter
 |---|---|---|
 | **Bereket** | Engine & Infrastructure (repo owner) | **Tester agent** (`agents/tester.py`): launches one Terac study per test, grades the answers, delivers the report · page reading + rewrite (`agents/intake.py`) · Solari screenshots (`integrations/solari.py`) · order/report routes (`api/tests.py`) · Company Log + stats (`api/company.py`, `stats.py`) · guardrail rules (`agents/guardrails.py`) · Railway deploy |
 | **Natnael** | Payments, Messaging & Customers | **Everything payment-related**: the Whop business is in Natnael's name, and he holds the keys, payouts and refunds (`integrations/whop.py`, `api/webhooks.py`) · **Finance agent** (`agents/finance.py`): payment → start test; money-back guarantee · **Support agent** (`agents/support.py`, `api/support.py`) · email (`integrations/notify.py`) |
-| **Yared** | Growth, Research & Product Face | **Test page** participants see (`frontend/src/pages/TestTaker.tsx`, `api/testpage.py`) · **Research agent** (`agents/research.py`): tests our own landing page = the before/after · CEO + Growth agents (`agents/ceo.py`, `agents/growth.py`) ✅ · Terac/Exa/Bluesky clients ✅ · pages: `NewTest`, `Report`, `Landing` ✅, `CompanyLog` ✅ · demo + submission |
+| **Yared** | Growth, Research & Product Face | **Test page** participants see (`frontend/src/pages/TestTaker.tsx`, `api/testpage.py`) ✅ · **Research agent** (`agents/research.py`): tests our own landing page = the before/after ✅ · CEO + Growth agents ✅ · Terac/Exa/Bluesky clients ✅ · pages `NewTest`, `Report`, `Landing`, `CompanyLog` ✅ · Terac/Exa keys · demo + submission |
 
 > **Money rule:** only Natnael creates or logs into the Whop account, holds `WHOP_*` keys, or receives revenue.
 > Other agents call functions in `integrations/whop.py`; they never hold Whop credentials.
@@ -32,7 +32,7 @@ automatically**. We also run FirstGlance on our own landing page; that's our Ter
 1. **Bereket:** `intake.read_hero` + `write_rewrite` → `POST /api/tests` + `GET /api/tests/{id}` → **deploy to Railway ASAP**
    (Terac participants need the public https site).
 2. **Natnael:** Whop product ($15) + checkout + webhook → Finance `payment_received` (marks paid, queues `run_test`).
-3. **Yared:** `/t/:id` test page + `/api/t` routes → Research agent starts the self-test as soon as the site is public.
+3. **Yared:** ✅ `/t/:id` test page + `/api/t` routes + Research self-test (queues a `run_test` job; it launches once the Tester and the public site exist).
 4. **Bereket:** Tester: launch study → grade → deliver report.
 5. **Natnael:** report email, refund guarantee, Support agent.
 6. **Everyone:** turn on `tests/test_end_to_end.py` (remove its skip line) and make it pass together.
