@@ -356,7 +356,7 @@ export interface components {
         };
         /**
          * HeroCopy
-         * @description The top of a landing page: what a visitor sees in the first 5 seconds.
+         * @description The top of a landing page: what a visitor sees in the first 10 seconds.
          */
         HeroCopy: {
             /** Headline */

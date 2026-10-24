@@ -64,7 +64,7 @@ export default function NewTest() {
         <Card>
           <p className="font-semibold">What happens next</p>
           <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-600">
-            <li>About 10 real people each see one version for 5 seconds.</li>
+            <li>About 10 real people each see one version for 10 seconds.</li>
             <li>They tell us what they think you do and whether they'd sign up.</li>
             <li>You get a report by email with the winner and the copy to paste in, usually within a couple of hours.</li>
             <li>If our version doesn't beat yours, you're refunded automatically.</li>

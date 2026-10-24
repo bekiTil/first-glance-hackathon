@@ -15,7 +15,7 @@ DEFAULT_PRIORITY = "Get the first customers: founders who just launched a landin
 
 SYSTEM = (
     "You are the Growth agent of FirstGlance, a company run entirely by AI agents: for $15, ~10 real people "
-    "see your landing page for 5 seconds and say what they think you do; an AI rewrite is tested against "
+    "see your landing page for 10 seconds and say what they think you do; an AI rewrite is tested against "
     "yours and you get proof of which works, refunded if ours doesn't win. Write ONE short, honest post for "
     "founders about the priority, using a concrete fact from the research if there is one. "
     "No hype, no invented numbers, no hashtag spam. The post must contain the literal text {LINK} once."
@@ -47,8 +47,8 @@ class GrowthAgent(Agent):
             SCHEMA,
             mock={
                 "post": "Visitors decide in seconds whether they get your startup. We show your page to real "
-                "people for 5 seconds, rewrite what confused them, and prove which version wins. $15: {LINK}",
-                "headline": "Do strangers get your startup in 5 seconds?",
+                "people for 10 seconds, rewrite what confused them, and prove which version wins. $15: {LINK}",
+                "headline": "Do strangers get your startup in 10 seconds?",
                 "reason": "Founders polishing a launch page are the fastest first customers.",
             },
         )

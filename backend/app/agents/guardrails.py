@@ -72,7 +72,7 @@ BANNED_CLAIMS: list[tuple[re.Pattern, str]] = [
 ]
 
 REVIEW_SYSTEM = """You are the compliance reviewer for FirstGlance, an AI-run company that shows a startup's
-landing page to ~10 real people (recruited on Terac) for 5 seconds, rewrites the confusing parts with AI,
+landing page to ~10 real people (recruited on Terac) for 10 seconds, rewrites the confusing parts with AI,
 and refunds the $15 if the rewrite doesn't win. Approve a public post or ad only if:
 - it is honest: no invented statistics, no fake testimonials or quotes, no fake scarcity
 - it never promises conversion lifts or guaranteed results (the refund policy itself is fine to mention)

@@ -59,7 +59,7 @@ export default function CompanyLog() {
           {results ? (
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <div>
-                <p className="text-sm text-slate-600">Understood what we do in 5 seconds</p>
+                <p className="text-sm text-slate-600">Understood what we do in 10 seconds</p>
                 <p className="text-2xl font-bold">{pct(results.original.understood_rate)} → {pct(results.rewrite.understood_rate)}</p>
               </div>
               <div>

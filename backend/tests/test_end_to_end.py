@@ -40,7 +40,7 @@ def test_full_flow():
 
         # a participant opens the test page and answers
         page = client.get(f"/api/t/{tid}?participant=p1").json()
-        assert page["arm"] in ("original", "rewrite") and page["hero"]["headline"] and page["seconds"] == 5
+        assert page["arm"] in ("original", "rewrite") and page["hero"]["headline"] and page["seconds"] == 10
         body = {"participant_ref": "p1", "arm": page["arm"], "answer": "payroll for dentists", "signup": 4}
         assert client.post(f"/api/t/{tid}/answers", json=body).status_code == 200
         client.post(f"/api/dev/fake-answers/{tid}?n=10")

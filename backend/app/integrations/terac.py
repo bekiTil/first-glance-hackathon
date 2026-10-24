@@ -4,7 +4,7 @@ REST API (beta): https://terac.com/api/external/v2, header "Authorization: Beare
 Key: Terac dashboard -> organization settings -> API keys. Spec: https://terac.com/docs/developers
 
 How a FirstGlance test works: Terac recruits people and sends them to OUR page (task_url =
-{PUBLIC_WEB_URL}/t/<test id>), where they see one version for 5 seconds and answer; answers land in
+{PUBLIC_WEB_URL}/t/<test id>), where they see one version for 10 seconds and answer; answers land in
 our test_answers table. One Terac opportunity per test.
 Audience = Terac's base audience (US adults, any language) = the "General Population" the organizers
 asked for. Completion is self-reported, so no callback is needed.
@@ -116,8 +116,8 @@ def create_study(title: str, description: str, task_url: str, participants: int,
                             "task_type": "interview",
                             "review_type": "self_report",
                             "task_url": task_url,
-                            "title": "Look at a website for 5 seconds",
-                            "description": "Open the link, look at a website for 5 seconds, answer 2 quick questions, press Submit, then mark this task done.",
+                            "title": "Look at a website for 10 seconds",
+                            "description": "Open the link, look at a website for 10 seconds, answer 2 quick questions, press Submit, then mark this task done.",
                             "duration_minutes": minutes,
                         }
                     ],

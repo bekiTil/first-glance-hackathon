@@ -18,19 +18,19 @@ from app.models import DecisionLog, Job, PageTest
 from app.schemas import HeroCopy, TestResults
 
 DEFAULT_LANDING = HeroCopy(
-    headline="Do people get your startup in 5 seconds?",
-    subhead="Real people see your landing page for 5 seconds. AI rewrites what confused them, and you get "
+    headline="Do people get your startup in 10 seconds?",
+    subhead="Real people see your landing page for 10 seconds. AI rewrites what confused them, and you get "
     "proof the new version works.",
     cta="Test my page for $15",
 )
 OUR_PITCH = (
-    "FirstGlance shows a startup's landing page to real people for 5 seconds, rewrites what confused them, "
+    "FirstGlance shows a startup's landing page to real people for 10 seconds, rewrites what confused them, "
     "and proves which version people understand."
 )
 MAX_ROUNDS = 2
 
 REWRITE_SYSTEM = (
-    "You rewrite the top of a landing page so a stranger understands it in 5 seconds: say WHAT it is and "
+    "You rewrite the top of a landing page so a stranger understands it in 10 seconds: say WHAT it is and "
     "FOR WHOM in plain words, keep the tone, no hype, no invented claims, similar length. "
     "The button text should say what happens when you click."
 )
@@ -77,8 +77,8 @@ class ResearchAgent(Agent):
             f"What the company does: {OUR_PITCH}\nCurrent copy: {original.model_dump_json()}",
             REWRITE_SCHEMA,
             mock={
-                "headline": "See if strangers understand your startup in 5 seconds",
-                "subhead": "10 real people look at your landing page for 5 seconds and tell you what they think "
+                "headline": "See if strangers understand your startup in 10 seconds",
+                "subhead": "10 real people look at your landing page for 10 seconds and tell you what they think "
                 "you do. We rewrite it and prove which version works.",
                 "cta": "Test my landing page ($15)",
             },
@@ -96,7 +96,7 @@ class ResearchAgent(Agent):
         enqueue(ctx.db, JobType.run_test, {"test_id": test.public_id})
         ctx.log(
             "started_self_test",
-            f"Round {round_}: asking real people whether they understand our own landing page in 5 seconds, "
+            f"Round {round_}: asking real people whether they understand our own landing page in 10 seconds, "
             "current copy vs. a clearer rewrite.",
             test=test.public_id,
             round=round_,
@@ -122,7 +122,7 @@ class ResearchAgent(Agent):
             ctx.set_state(StateKey.landing_copy, test.rewrite)
         ctx.log(
             "before_after",
-            f"Real people who saw our old landing page for 5 seconds: {o.understood}/{o.responses} understood "
+            f"Real people who saw our old landing page for 10 seconds: {o.understood}/{o.responses} understood "
             f"what we do (would sign up {o.avg_signup}/5). With the rewrite: {r.understood}/{r.responses} "
             f"({r.avg_signup}/5). "
             + ("Switched the site to the rewrite." if adopted else "Kept the old copy."),

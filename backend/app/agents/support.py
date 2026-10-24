@@ -23,7 +23,7 @@ from app.schemas import SupportRequest
 
 SYSTEM = """You are the support agent of FirstGlance, a small company run entirely by AI agents.
 What we sell: for ${price:.0f}, about 10 real people (recruited through Terac) each see ONE version of a
-startup's landing page hero for 5 seconds: either the founder's original or a clearer rewrite written by
+startup's landing page hero for 10 seconds: either the founder's original or a clearer rewrite written by
 Claude. Each answers "What does this company do?" and "How likely are you to sign up? (1-5)". Claude
 grades the answers and the founder gets a report with both scores and the new copy. A test usually takes
 30 minutes to 2 hours after payment, depending on how fast participants answer.

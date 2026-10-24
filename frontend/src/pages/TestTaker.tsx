@@ -1,4 +1,4 @@
-// Terac participants land here (task_url): see ONE version for 5 seconds, then 2 questions. Owner: Yared.
+// Terac participants land here (task_url): see ONE version for 10 seconds, then 2 questions. Owner: Yared.
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { api, type TestPageOut } from "../api/client";
@@ -24,9 +24,9 @@ export default function TestTaker() {
 
   useEffect(() => {
     if (step !== "showing" || !page) return;
-    setLeft(page.seconds ?? 5);
+    setLeft(page.seconds ?? 10);
     const tick = setInterval(() => setLeft((s) => s - 1), 1000);
-    const end = setTimeout(() => setStep("questions"), (page.seconds ?? 5) * 1000);
+    const end = setTimeout(() => setStep("questions"), (page.seconds ?? 10) * 1000);
     return () => {
       clearInterval(tick);
       clearTimeout(end);

@@ -1,10 +1,10 @@
 # FirstGlance
 
-**Do people get your startup in 5 seconds?** An agent-run company for the Zero Human Company Hackathon NYC (Oct 24, 2026).
+**Do people get your startup in 10 seconds?** An agent-run company for the Zero Human Company Hackathon NYC (Oct 24, 2026).
 
 A founder pastes their landing page URL plus one sentence about what they do, then pays **$15 on Whop**.
 An agent reads their hero (headline, subhead, button) and Claude writes a clearer version. **About 10 real
-people from Terac** each see *one* version for 5 seconds, then answer "What does this company do?" and "How
+people from Terac** each see *one* version for 10 seconds, then answer "What does this company do?" and "How
 likely are you to sign up? (1-5)". Claude grades the answers, and the founder gets a report: *"3/5 understood
 yours, 5/5 understood ours. Here's the new copy."* If our version doesn't win, they're **refunded
 automatically**. We also run FirstGlance on our own landing page; that's our Terac before/after.
@@ -73,7 +73,7 @@ Unbuilt routes answer `501 Not implemented yet: TODO(owner)`. Unbuilt agents are
 ```
 Founder ─► /test/new ─► POST /api/tests (read hero + rewrite) ─► confirm ─► Whop checkout (Natnael)
                                                                               │ webhook
-Terac people ─► /t/:id (5 s, 2 questions) ─► test_answers        Finance ◄────┘ paid → run_test job
+Terac people ─► /t/:id (10 s, 2 questions) ─► test_answers        Finance ◄────┘ paid → run_test job
                                    ▲                                │
                                    └──── Tester: launch Terac study ◄┘ → grade → report email → /report/:id
                                                                           └─► Finance refunds if ours lost
@@ -153,4 +153,4 @@ variables himself, and the Whop webhook URL is `https://<web domain>/api/webhook
 - [ ] Built on **Whop**; **all payments through Whop** (no Stripe)
 - [ ] **Real, organic revenue**
 - [ ] Exa (Growth research) and Solari (page screenshots) for the sponsor tracks
-- [ ] Be upfront in the demo: PickFu/Lyssna sell 5-second tests. Ours is the full loop (test → AI rewrite → proof → refund) run by agents.
+- [ ] Be upfront in the demo: PickFu/Lyssna sell 10-second tests. Ours is the full loop (test → AI rewrite → proof → refund) run by agents.

@@ -78,7 +78,7 @@ def test_test_page_balances_arms_and_records_answers():
         arms = []
         for i in range(6):
             page = client.get(f"/api/t/{tid}?participant=p{i}").json()
-            assert page["seconds"] == 5 and page["hero"]["headline"]
+            assert page["seconds"] == 10 and page["hero"]["headline"]
             arms.append(page["arm"])
             body = {"participant_ref": f"p{i}", "arm": page["arm"], "answer": "payroll", "signup": 4}
             assert client.post(f"/api/t/{tid}/answers", json=body).json()["ok"]

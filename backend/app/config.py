@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     solari_api_key: str = ""
     mock_solari: bool = True
     test_participants: int = 4  # per test ($4.50 each on Terac), split evenly between original and rewrite
-    test_seconds: int = 5  # how long each participant sees the page
+    test_seconds: int = 10  # how long each participant sees the page
     min_answers_per_arm: int = 2  # grade once both arms have this many...
     test_timeout_minutes: int = 120  # ...or after this long, with whatever answers came in
 

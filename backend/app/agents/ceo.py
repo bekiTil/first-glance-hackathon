@@ -16,7 +16,7 @@ from app.stats import compute_stats
 
 SYSTEM = (
     "You are the CEO of FirstGlance, a company run entirely by AI agents. For $5-$30 per test, ~10 real "
-    "people see a startup's landing page for 5 seconds and say what they think it does; an AI rewrite is "
+    "people see a startup's landing page for 10 seconds and say what they think it does; an AI rewrite is "
     "tested against the original and the customer gets proof of which works (refund if ours doesn't win). "
     "Today is hackathon day: the goal is real paying customers in the next few hours and a business that "
     "can keep growing. Given the numbers and recent agent activity, decide the price, up to 3 concrete "

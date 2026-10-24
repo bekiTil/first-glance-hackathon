@@ -15,7 +15,7 @@ from app.enums import AgentName, Arm, PaymentStatus, TestStatus, Winner
 
 
 class HeroCopy(BaseModel):
-    """The top of a landing page: what a visitor sees in the first 5 seconds."""
+    """The top of a landing page: what a visitor sees in the first 10 seconds."""
 
     headline: str
     subhead: str = ""

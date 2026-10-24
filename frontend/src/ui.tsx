@@ -6,24 +6,24 @@ export function Button({ children, disabled, onClick, type = "button", variant =
   variant?: "primary" | "ghost";
 }) {
   const style = variant === "primary"
-    ? "bg-slate-900 text-white hover:bg-slate-700 disabled:bg-slate-400"
-    : "border border-slate-300 text-slate-700 hover:bg-slate-50";
+    ? "bg-ink text-cream hover:bg-brand-dark disabled:bg-ink/40"
+    : "border-2 border-ink text-ink hover:bg-paper";
   return (
     <button type={type} disabled={disabled} onClick={onClick}
-      className={`rounded-lg px-5 py-3 font-semibold transition ${style}`}>
+      className={`rounded-full px-6 py-3 font-semibold transition ${style}`}>
       {children}
     </button>
   );
 }
 
-export const inputClass = "w-full rounded-lg border border-slate-300 p-3 focus:border-slate-900 focus:outline-none";
+export const inputClass = "w-full rounded-xl border border-line bg-paper p-3 focus:border-ink focus:outline-none";
 
 export function ErrorText({ error }: { error: string }) {
   return error ? <p className="text-sm text-red-600">{error}</p> : null;
 }
 
 export function Card({ children }: { children: ReactNode }) {
-  return <div className="rounded-xl border border-slate-200 p-4">{children}</div>;
+  return <div className="rounded-2xl border border-line bg-paper p-5">{children}</div>;
 }
 
 export function timeAgo(iso: string): string {

@@ -34,7 +34,7 @@ from app.schemas import ArmResult, HeroCopy, TestResults
 
 log = logging.getLogger(__name__)
 
-GRADE_SYSTEM = """You grade a 5-second landing-page test. Each participant saw a landing page for 5 seconds
+GRADE_SYSTEM = """You grade a 10-second landing-page test. Each participant saw a landing page for 10 seconds
 and answered "What does this company do?". Mark an answer understood=true when it captures the product's
 core job or category the way the founder describes it (wording can differ; the audience is optional).
 Vague, wrong or empty answers ("no idea", "some AI thing", "a website", a different product) are false.
@@ -107,8 +107,8 @@ class TesterAgent(Agent):
         try:
             if not test.terac_id:
                 quote = terac.create_study(
-                    title="Look at a website for 5 seconds",
-                    description="See a website's top section for 5 seconds, then answer 2 quick questions: "
+                    title="Look at a website for 10 seconds",
+                    description="See a website's top section for 10 seconds, then answer 2 quick questions: "
                     "what does this company do, and how likely would you be to sign up?",
                     task_url=f"{base}/t/{test.public_id}",
                     participants=settings.test_participants,
@@ -305,7 +305,7 @@ def report_email(results: TestResults, rewrite: HeroCopy, report_url: str, price
     cta = f"<p><strong>Button:</strong> {e(rewrite.cta)}</p>" if rewrite.cta else ""
     return f"""<div style="font-family:system-ui,sans-serif;max-width:560px">
 <h2>{e(results.summary)}</h2>
-<p>Real people saw your page for 5 seconds and told us what they thought your company does.</p>
+<p>Real people saw your page for 10 seconds and told us what they thought your company does.</p>
 <p>{e(verdict)}</p>
 <blockquote style="border-left:3px solid #111;margin:0;padding:8px 14px">
 <p style="font-size:20px;margin:0 0 6px"><strong>{e(rewrite.headline)}</strong></p>
