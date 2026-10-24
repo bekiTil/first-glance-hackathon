@@ -669,6 +669,122 @@
         }
       }
     },
+    "/api/studies/landing-copy": {
+      "get": {
+        "tags": [
+          "studies"
+        ],
+        "summary": "Current Landing Copy",
+        "description": "The landing page reads its copy from here, so the Research agent's rewrite goes live.",
+        "operationId": "current_landing_copy_api_studies_landing_copy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LandingCopy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/studies/{public_id}": {
+      "get": {
+        "tags": [
+          "studies"
+        ],
+        "summary": "Get Study",
+        "operationId": "get_study_api_studies__public_id__get",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/studies/{public_id}/answers": {
+      "post": {
+        "tags": [
+          "studies"
+        ],
+        "summary": "Submit Answers",
+        "operationId": "submit_answers_api_studies__public_id__answers_post",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyAnswerIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/dev/fake-pay/{public_id}": {
       "get": {
         "tags": [
@@ -1059,6 +1175,36 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "LandingCopy": {
+        "properties": {
+          "headline": {
+            "type": "string",
+            "title": "Headline"
+          },
+          "subhead": {
+            "type": "string",
+            "title": "Subhead"
+          },
+          "bullets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Bullets"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "headline",
+          "subhead"
+        ],
+        "title": "LandingCopy"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -1174,6 +1320,167 @@
           "price_usd"
         ],
         "title": "Stats"
+      },
+      "StudyAnswerIn": {
+        "properties": {
+          "participant_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Participant Ref",
+            "description": "teracSubmissionId from the task URL"
+          },
+          "picks": {
+            "items": {
+              "$ref": "#/components/schemas/StudyPick"
+            },
+            "type": "array",
+            "title": "Picks"
+          },
+          "willingness": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Willingness",
+            "description": "How likely to pay $3 for this (1-5)"
+          },
+          "unclear": {
+            "type": "string",
+            "title": "Unclear",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "picks",
+          "willingness"
+        ],
+        "title": "StudyAnswerIn"
+      },
+      "StudyOption": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "\"A\" | \"B\" | \"C\""
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "section": {
+            "type": "string",
+            "title": "Section"
+          },
+          "lower_level": {
+            "type": "boolean",
+            "title": "Lower Level"
+          },
+          "day": {
+            "type": "string",
+            "title": "Day",
+            "description": "e.g. \"Fri Nov 13\""
+          },
+          "weekend": {
+            "type": "boolean",
+            "title": "Weekend"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "price",
+          "section",
+          "lower_level",
+          "day",
+          "weekend"
+        ],
+        "title": "StudyOption"
+      },
+      "StudyOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "round": {
+            "type": "integer",
+            "title": "Round"
+          },
+          "sets": {
+            "items": {
+              "$ref": "#/components/schemas/StudySet"
+            },
+            "type": "array",
+            "title": "Sets"
+          },
+          "landing": {
+            "$ref": "#/components/schemas/LandingCopy"
+          },
+          "price_usd": {
+            "type": "number",
+            "title": "Price Usd"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "round",
+          "sets",
+          "landing",
+          "price_usd"
+        ],
+        "title": "StudyOut",
+        "description": "What the /study/:id page shows a Terac participant."
+      },
+      "StudyPick": {
+        "properties": {
+          "set": {
+            "type": "integer",
+            "title": "Set"
+          },
+          "option": {
+            "type": "string",
+            "title": "Option"
+          },
+          "why": {
+            "type": "string",
+            "title": "Why",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "set",
+          "option"
+        ],
+        "title": "StudyPick"
+      },
+      "StudySet": {
+        "properties": {
+          "event": {
+            "type": "string",
+            "title": "Event"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/StudyOption"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event",
+          "options"
+        ],
+        "title": "StudySet"
       },
       "TicketSource": {
         "type": "string",

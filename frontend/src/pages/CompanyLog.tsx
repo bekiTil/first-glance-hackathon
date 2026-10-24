@@ -1,15 +1,96 @@
-// Owner: Yared. Replace the placeholder with the real page.
-import TodoPage from "./_TodoPage";
+// The judges' page: live numbers, the Terac before/after, and every agent decision. Owner: Yared.
+import { useEffect, useState } from "react";
+import { api, type DecisionOut, type Stats } from "../api/client";
+import { Card, timeAgo } from "../ui";
+
+const AGENT_COLORS: Record<string, string> = {
+  ceo: "bg-purple-100 text-purple-800", growth: "bg-green-100 text-green-800",
+  support: "bg-blue-100 text-blue-800", watcher: "bg-amber-100 text-amber-800",
+  finance: "bg-emerald-100 text-emerald-800", compliance: "bg-red-100 text-red-800",
+  research: "bg-sky-100 text-sky-800",
+};
+
+const pct = (v: unknown) => (typeof v === "number" ? `${Math.round(v * 100)}%` : "–");
 
 export default function CompanyLog() {
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [log, setLog] = useState<DecisionOut[]>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const load = () => {
+      api.stats().then(setStats).catch((e) => setError(String(e.message ?? e)));
+      api.companyLog(200).then(setLog).catch((e) => setError(String(e.message ?? e)));
+    };
+    load();
+    const timer = setInterval(load, 10_000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const beforeAfter = log.find((d) => d.action === "before_after");
+  const learned = log.find((d) => d.action === "updated_deal_weights");
+
   return (
-    <TodoPage
-      title="Company log"
-      spec={[
-        "Judges page: api.stats() tiles (revenue, active watches, alerts, purchases)",
-        "api.companyLog() feed: agent badge, action, reason, time; refresh every ~10s",
-        "Show Terac before/after when Study 2 is done",
-      ]}
-    />
+    <section className="py-8">
+      <h1 className="text-3xl font-bold">Company log</h1>
+      <p className="mt-1 text-slate-600">Ticket Watch is run by AI agents. Everything they decide shows up here, live.</p>
+      {error && <p className="mt-2 text-sm text-amber-700">Some data isn't available yet: {error}</p>}
+
+      {stats && (
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {([
+            ["Revenue", `$${stats.revenue_usd.toFixed(2)}`],
+            ["Active watches", stats.watches_active],
+            ["Alerts sent", stats.alerts_sent],
+            ["Tickets bought", stats.purchases],
+          ] as const).map(([label, value]) => (
+            <Card key={label}>
+              <p className="text-xs uppercase tracking-wide text-slate-500">{label}</p>
+              <p className="mt-1 text-3xl font-bold">{value}</p>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {(beforeAfter || learned) && (
+        <div className="mt-6 rounded-xl border-2 border-sky-300 bg-sky-50 p-5">
+          <p className="font-bold">Real people taught our agent what a good deal is (via Terac)</p>
+          {beforeAfter ? (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div>
+                <p className="text-sm text-slate-600">Agent agreed with people's picks</p>
+                <p className="text-2xl font-bold">{pct(beforeAfter.data.agreement_v1)} → {pct(beforeAfter.data.agreement_v2)}</p>
+              </div>
+              <div>
+                <p className="text-sm text-slate-600">Willingness to pay (1-5)</p>
+                <p className="text-2xl font-bold">
+                  {String(beforeAfter.data.willingness_v1 ?? "–")} → {String(beforeAfter.data.willingness_v2 ?? "–")}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="mt-2 text-sm">{learned?.reason} Measuring the improvement with a second group of people now.</p>
+          )}
+        </div>
+      )}
+
+      <ul className="mt-6 space-y-2">
+        {log.map((d) => (
+          <li key={d.id} className="rounded-lg border border-slate-200 p-3 text-sm">
+            <div className="flex items-center justify-between gap-2">
+              <span>
+                <span className={`mr-2 rounded px-2 py-0.5 font-mono text-xs ${AGENT_COLORS[d.agent] ?? "bg-slate-100"}`}>
+                  {d.agent}
+                </span>
+                <b>{d.action.replaceAll("_", " ")}</b>
+              </span>
+              <span className="shrink-0 text-xs text-slate-400">{timeAgo(d.created_at)}</span>
+            </div>
+            <p className="mt-1 text-slate-700">{d.reason}</p>
+          </li>
+        ))}
+        {log.length === 0 && !error && <li className="text-slate-500">No decisions yet.</li>}
+      </ul>
+    </section>
   );
 }

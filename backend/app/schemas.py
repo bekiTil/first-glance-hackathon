@@ -190,3 +190,50 @@ class ReplyIn(BaseModel):
     phone: str | None = None
     action: ReplyAction | None = None
     text: str = ""
+
+
+# ---------- Research / Terac studies (owner: Yared) ----------
+
+
+class StudyOption(BaseModel):
+    label: str = Field(description='"A" | "B" | "C"')
+    price: float
+    section: str
+    lower_level: bool
+    day: str = Field(description='e.g. "Fri Nov 13"')
+    weekend: bool
+
+
+class StudySet(BaseModel):
+    event: str
+    options: list[StudyOption]
+
+
+class LandingCopy(BaseModel):
+    headline: str
+    subhead: str
+    bullets: list[str] = Field(default_factory=list)
+    version: int = 1
+
+
+class StudyOut(BaseModel):
+    """What the /study/:id page shows a Terac participant."""
+
+    id: str
+    round: int
+    sets: list[StudySet]
+    landing: LandingCopy
+    price_usd: float
+
+
+class StudyPick(BaseModel):
+    set: int
+    option: str
+    why: str = ""
+
+
+class StudyAnswerIn(BaseModel):
+    participant_ref: str | None = Field(default=None, description="teracSubmissionId from the task URL")
+    picks: list[StudyPick]
+    willingness: int = Field(ge=1, le=5, description="How likely to pay $3 for this (1-5)")
+    unclear: str = ""

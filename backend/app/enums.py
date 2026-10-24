@@ -84,6 +84,7 @@ class StudyKind(StrEnum):
 
 
 class StudyStatus(StrEnum):
+    waiting_for_public_url = "waiting_for_public_url"  # Terac needs a public https study page
     quoted = "quoted"
     running = "running"
     completed = "completed"
@@ -109,3 +110,4 @@ class StateKey(StrEnum):
     deal_weights = "deal_weights"
     ad_spend_today = "ad_spend_today"
     kill_switch = "kill_switch"
+    landing_copy = "landing_copy"  # Research agent (Yared): current landing-page copy

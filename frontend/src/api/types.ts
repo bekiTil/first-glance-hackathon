@@ -260,6 +260,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/studies/landing-copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current Landing Copy
+         * @description The landing page reads its copy from here, so the Research agent's rewrite goes live.
+         */
+        get: operations["current_landing_copy_api_studies_landing_copy_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/studies/{public_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Study */
+        get: operations["get_study_api_studies__public_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/studies/{public_id}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit Answers */
+        post: operations["submit_answers_api_studies__public_id__answers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/dev/fake-pay/{public_id}": {
         parameters: {
             query?: never;
@@ -471,6 +525,20 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** LandingCopy */
+        LandingCopy: {
+            /** Headline */
+            headline: string;
+            /** Subhead */
+            subhead: string;
+            /** Bullets */
+            bullets?: string[];
+            /**
+             * Version
+             * @default 1
+             */
+            version: number;
+        };
         /** LoginRequest */
         LoginRequest: {
             /**
@@ -529,6 +597,81 @@ export interface components {
             conversion_rate: number;
             /** Price Usd */
             price_usd: number;
+        };
+        /** StudyAnswerIn */
+        StudyAnswerIn: {
+            /**
+             * Participant Ref
+             * @description teracSubmissionId from the task URL
+             */
+            participant_ref?: string | null;
+            /** Picks */
+            picks: components["schemas"]["StudyPick"][];
+            /**
+             * Willingness
+             * @description How likely to pay $3 for this (1-5)
+             */
+            willingness: number;
+            /**
+             * Unclear
+             * @default
+             */
+            unclear: string;
+        };
+        /** StudyOption */
+        StudyOption: {
+            /**
+             * Label
+             * @description "A" | "B" | "C"
+             */
+            label: string;
+            /** Price */
+            price: number;
+            /** Section */
+            section: string;
+            /** Lower Level */
+            lower_level: boolean;
+            /**
+             * Day
+             * @description e.g. "Fri Nov 13"
+             */
+            day: string;
+            /** Weekend */
+            weekend: boolean;
+        };
+        /**
+         * StudyOut
+         * @description What the /study/:id page shows a Terac participant.
+         */
+        StudyOut: {
+            /** Id */
+            id: string;
+            /** Round */
+            round: number;
+            /** Sets */
+            sets: components["schemas"]["StudySet"][];
+            landing: components["schemas"]["LandingCopy"];
+            /** Price Usd */
+            price_usd: number;
+        };
+        /** StudyPick */
+        StudyPick: {
+            /** Set */
+            set: number;
+            /** Option */
+            option: string;
+            /**
+             * Why
+             * @default
+             */
+            why: string;
+        };
+        /** StudySet */
+        StudySet: {
+            /** Event */
+            event: string;
+            /** Options */
+            options: components["schemas"]["StudyOption"][];
         };
         /**
          * TicketSource
@@ -1084,6 +1227,92 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FreeEvent"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    current_landing_copy_api_studies_landing_copy_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LandingCopy"];
+                };
+            };
+        };
+    };
+    get_study_api_studies__public_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudyOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_answers_api_studies__public_id__answers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                public_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StudyAnswerIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OkOut"];
                 };
             };
             /** @description Validation Error */

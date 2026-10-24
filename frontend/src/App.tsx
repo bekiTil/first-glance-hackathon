@@ -7,6 +7,7 @@ import MyWatches from "./pages/MyWatches";
 import FreeEvents from "./pages/FreeEvents";
 import CompanyLog from "./pages/CompanyLog";
 import Thanks from "./pages/Thanks";
+import Study from "./pages/Study";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/events" element={<FreeEvents />} />
           <Route path="/company" element={<CompanyLog />} />
           <Route path="/thanks" element={<Thanks />} />
+          <Route path="/study/:id" element={<Study />} />
         </Routes>
       </main>
     </div>

@@ -178,3 +178,17 @@ class Study(Base):
     results: Mapped[dict] = mapped_column(JSON, default=dict)
     launched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+
+class StudyAnswer(Base):
+    """Owner: Yared. One participant's answers, posted from our /study/:id page (Terac task_url)."""
+
+    __tablename__ = "study_answers"
+    __table_args__ = (UniqueConstraint("study_id", "participant_ref"),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    study_id: Mapped[int] = mapped_column(ForeignKey("studies.id"), index=True)
+    participant_ref: Mapped[str] = mapped_column(String(128))  # Terac teracSubmissionId (or a random id)
+    picks: Mapped[list] = mapped_column(JSON, default=list)  # [{"set": 0, "option": "B", "why": "..."}]
+    willingness: Mapped[int | None] = mapped_column(Integer)  # 1-5 "would you pay $3?"
+    unclear: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)

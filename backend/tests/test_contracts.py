@@ -73,8 +73,8 @@ def test_mocks_return_contract_types():
     notify.send_sms("+12125550100", "hi")
     assert [m["channel"] for m in notify.OUTBOX[-2:]] == ["email", "sms"]
     assert all(isinstance(f, FreeEvent) for f in exa.free_events())
-    quote = terac.request_quote("task", 5)
-    assert terac.get_submissions(terac.launch(quote["request_id"]))
+    quote = terac.create_study("t", "d", "https://example.com/study/x", 5, 5)
+    assert quote["id"] and terac.launch(quote["id"]) == "active"
     assert llm.ask_json("s", "p", {}, mock={"x": 1}) == {"x": 1}
     assert set(DEFAULT_WEIGHTS) == {"price", "lower_level", "weekend"}
 

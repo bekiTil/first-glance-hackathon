@@ -59,6 +59,9 @@ class Settings(BaseSettings):
     mock_exa: bool = True
     terac_api_key: str = ""
     mock_terac: bool = True
+    terac_participants: int = 15
+    bluesky_handle: str = ""  # e.g. ticketwatch.bsky.social; empty = Growth posts only on our site
+    bluesky_app_password: str = ""
 
     # Guardrails (Bereket). Agents can never go outside these.
     starting_price_usd: float = 3.0
