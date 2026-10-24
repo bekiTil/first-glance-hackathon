@@ -21,7 +21,7 @@ DEFAULT_LANDING = HeroCopy(
     headline="Do people get your startup in 10 seconds?",
     subhead="Real people see your landing page for 10 seconds. AI rewrites what confused them, and you get "
     "proof the new version works.",
-    cta="Test my page for $15",
+    cta="Test my page for $10",
 )
 OUR_PITCH = (
     "FirstGlance shows a startup's landing page to real people for 10 seconds, rewrites what confused them, "
@@ -80,7 +80,7 @@ class ResearchAgent(Agent):
                 "headline": "See if strangers understand your startup in 10 seconds",
                 "subhead": "10 real people look at your landing page for 10 seconds and tell you what they think "
                 "you do. We rewrite it and prove which version works.",
-                "cta": "Test my landing page ($15)",
+                "cta": "Test my landing page ($10)",
             },
         )
         test = PageTest(

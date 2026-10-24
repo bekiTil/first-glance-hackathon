@@ -9,7 +9,7 @@ const FALLBACK: HeroCopy = {
   headline: "Do people get your startup in 10 seconds?",
   subhead:
     "Real people see your landing page for 10 seconds. AI rewrites what confused them, and you get proof the new version works.",
-  cta: "Test my page for $15",
+  cta: "Test my page for $10",
 };
 
 const ICON = "h-5 w-5";
@@ -127,7 +127,7 @@ export default function Landing() {
             </a>
           </div>
           <p className="mt-6 text-sm text-muted">
-            <span className="font-semibold text-ink">Refund if our version doesn't win</span> · Results in about an hour · $15 per test
+            <span className="font-semibold text-ink">Refund if our version doesn't win</span> · Results in about an hour · $10 per test
           </p>
         </div>
         <HeroVisual />
@@ -201,7 +201,7 @@ export default function Landing() {
       <section id="pricing" className="mx-auto max-w-6xl scroll-mt-20 px-5 pb-20">
         <div className="mx-auto max-w-xl rounded-[2rem] border border-line bg-paper p-8 text-center shadow-xl shadow-ink/5 sm:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">Pricing</p>
-          <p className="mt-4 font-display text-6xl font-semibold">$15</p>
+          <p className="mt-4 font-display text-6xl font-semibold">$10</p>
           <p className="text-muted">per test · one page · no subscription</p>
           <ul className="mx-auto mt-6 max-w-sm space-y-2 text-left">
             {[

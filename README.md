@@ -2,7 +2,7 @@
 
 **Do people get your startup in 10 seconds?** An agent-run company for the Zero Human Company Hackathon NYC (Oct 24, 2026).
 
-A founder pastes their landing page URL plus one sentence about what they do, then pays **$15 on Whop**.
+A founder pastes their landing page URL plus one sentence about what they do, then pays **$10 on Whop**.
 An agent reads their hero (headline, subhead, button) and Claude writes a clearer version. **About 10 real
 people from Terac** each see *one* version for 10 seconds, then answer "What does this company do?" and "How
 likely are you to sign up? (1-5)". Claude grades the answers, and the founder gets a report: *"3/5 understood
@@ -31,7 +31,7 @@ automatically**. We also run FirstGlance on our own landing page; that's our Ter
 
 1. **Bereket:** `intake.read_hero` + `write_rewrite` → `POST /api/tests` + `GET /api/tests/{id}` → **deploy to Railway ASAP**
    (Terac participants need the public https site).
-2. **Natnael:** Whop product ($15) + checkout + webhook → Finance `payment_received` (marks paid, queues `run_test`).
+2. **Natnael:** Whop product ($10) + checkout + webhook → Finance `payment_received` (marks paid, queues `run_test`).
 3. **Yared:** ✅ `/t/:id` test page + `/api/t` routes + Research self-test (queues a `run_test` job; it launches once the Tester and the public site exist).
 4. **Bereket:** Tester: launch study → grade → deliver report.
 5. **Natnael:** report email, refund guarantee, Support agent.

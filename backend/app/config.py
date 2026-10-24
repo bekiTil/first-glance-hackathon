@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     bluesky_app_password: str = ""
 
     # Guardrails (Bereket). Agents can never go outside these.
-    starting_price_usd: float = 15.0
+    starting_price_usd: float = 10.0
     price_min_usd: float = 5.0
     price_max_usd: float = 30.0
     price_change_cooldown_minutes: int = 60
