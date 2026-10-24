@@ -44,7 +44,7 @@ automatically**. We also run FirstGlance on our own landing page; that's our Ter
 You need **[uv](https://docs.astral.sh/uv/getting-started/installation/)** (it installs Python 3.12 for you) and **Node 22** (`.nvmrc`).
 
 ```bash
-git clone https://github.com/bekiTil/ticket-watch.git && cd ticket-watch
+git clone https://github.com/bekiTil/first-glance.git && cd first-glance
 git switch Firstglance
 cp .env.example .env            # Windows: copy .env.example .env
 
