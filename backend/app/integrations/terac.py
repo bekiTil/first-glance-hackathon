@@ -132,7 +132,9 @@ def launch(opportunity_id: str) -> str:
     if settings.mock_terac:
         return "active"
     with _client() as client:
-        response = client.post(f"/opportunities/{opportunity_id}/launch")
+        response = client.post(
+            f"/opportunities/{opportunity_id}/launch", json={}
+        )  # Terac needs a JSON content-type
         if response.status_code == 409:  # not a draft any more: an earlier launch already went through
             current = _unwrap(client.get(f"/opportunities/{opportunity_id}"))
             if current.get("status") not in ("draft", None):
