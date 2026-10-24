@@ -32,9 +32,38 @@ class TeracError(RuntimeError):
 
 
 def _client() -> httpx.Client:
+    # creating a draft prices the whole brief server-side, which can take well over 30 s
     return httpx.Client(
-        base_url=BASE_URL, headers={"Authorization": f"Bearer {settings.terac_api_key}"}, timeout=30
+        base_url=BASE_URL,
+        headers={"Authorization": f"Bearer {settings.terac_api_key}"},
+        timeout=httpx.Timeout(120, connect=15),
     )
+
+
+def _quote(opportunity: dict) -> dict:
+    pricing = opportunity.get("pricing") or {}
+    return {
+        "id": opportunity["id"],
+        "cost_per_participant": (pricing.get("cost_per_participant_cents") or 0) / 100,
+        "total_cost": (pricing.get("total_cost_cents") or 0) / 100,
+        "affordable": (opportunity.get("funding") or {}).get("affordable"),
+    }
+
+
+def _existing_draft(client: httpx.Client, task_url: str) -> dict | None:
+    """A retry after a timeout must not pile up drafts: reuse the draft that points at this test page."""
+    try:
+        drafts = _unwrap(client.get("/opportunities", params={"status": "draft"}))
+    except (TeracError, httpx.HTTPError):
+        return None
+    for summary in drafts if isinstance(drafts, list) else []:
+        try:  # the list view leaves tasks empty, so read each draft
+            opp = _unwrap(client.get(f"/opportunities/{summary['id']}"))
+        except (TeracError, httpx.HTTPError, KeyError):
+            continue
+        if any((t or {}).get("task_url") == task_url for t in opp.get("tasks") or []):
+            return opp
+    return None
 
 
 def _unwrap(response: httpx.Response):
@@ -65,6 +94,9 @@ def create_study(title: str, description: str, task_url: str, participants: int,
             "affordable": True,
         }
     with _client() as client:
+        existing = _existing_draft(client, task_url)
+        if existing:
+            return _quote(existing)
         opportunity = _unwrap(
             client.post(
                 "/opportunities",
@@ -91,13 +123,7 @@ def create_study(title: str, description: str, task_url: str, participants: int,
                 },
             )
         )
-    pricing = opportunity.get("pricing") or {}
-    return {
-        "id": opportunity["id"],
-        "cost_per_participant": (pricing.get("cost_per_participant_cents") or 0) / 100,
-        "total_cost": (pricing.get("total_cost_cents") or 0) / 100,
-        "affordable": (opportunity.get("funding") or {}).get("affordable"),
-    }
+    return _quote(opportunity)
 
 
 def launch(opportunity_id: str) -> str:
@@ -105,4 +131,9 @@ def launch(opportunity_id: str) -> str:
     if settings.mock_terac:
         return "active"
     with _client() as client:
-        return _unwrap(client.post(f"/opportunities/{opportunity_id}/launch"))["status"]
+        response = client.post(f"/opportunities/{opportunity_id}/launch")
+        if response.status_code == 409:  # not a draft any more: an earlier launch already went through
+            current = _unwrap(client.get(f"/opportunities/{opportunity_id}"))
+            if current.get("status") not in ("draft", None):
+                return current["status"]
+        return _unwrap(response)["status"]
