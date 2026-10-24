@@ -32,7 +32,8 @@ class LLMError(RuntimeError):
 def _get_client() -> anthropic.Anthropic:
     global _client
     if _client is None:
-        _client = anthropic.Anthropic()
+        # .env is read by pydantic-settings, not exported, so pass the key; None -> SDK's own lookup
+        _client = anthropic.Anthropic(api_key=settings.anthropic_api_key or None)
     return _client
 
 

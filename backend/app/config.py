@@ -24,7 +24,8 @@ class Settings(BaseSettings):
     secret_key: str = "dev-secret-change-me"
     data_dir: Path = BACKEND_DIR / "data"  # screenshots / proofs
 
-    # Claude (shared). The SDK reads ANTHROPIC_API_KEY from the environment itself.
+    # Claude (shared)
+    anthropic_api_key: str = ""  # passed to the SDK explicitly (.env values are not exported)
     claude_model: str = "claude-opus-5-5"
     claude_effort: str = "medium"
     mock_llm: bool = True
