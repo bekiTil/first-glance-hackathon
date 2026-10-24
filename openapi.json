@@ -1,0 +1,1338 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ticket Watch API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/watches": {
+      "post": {
+        "tags": [
+          "watches"
+        ],
+        "summary": "Create Watch",
+        "operationId": "create_watch_api_watches_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatchOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/watches/{public_id}": {
+      "get": {
+        "tags": [
+          "watches"
+        ],
+        "summary": "Get Watch",
+        "operationId": "get_watch_api_watches__public_id__get",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatchOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "watches"
+        ],
+        "summary": "Update Checklist",
+        "operationId": "update_checklist_api_watches__public_id__patch",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChecklistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatchOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/watches/{public_id}/confirm": {
+      "post": {
+        "tags": [
+          "watches"
+        ],
+        "summary": "Confirm Watch",
+        "operationId": "confirm_watch_api_watches__public_id__confirm_post",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/webhooks/whop": {
+      "post": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Whop Webhook",
+        "operationId": "whop_webhook_api_webhooks_whop_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/webhooks/sms": {
+      "post": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Twilio Sms",
+        "operationId": "twilio_sms_api_webhooks_sms_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_twilio_sms_api_webhooks_sms_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/phone/send-code": {
+      "post": {
+        "tags": [
+          "phone"
+        ],
+        "summary": "Send Code",
+        "operationId": "send_code_api_phone_send_code_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendCodeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/phone/verify": {
+      "post": {
+        "tags": [
+          "phone"
+        ],
+        "summary": "Verify Code",
+        "operationId": "verify_code_api_phone_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCodeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/login": {
+      "post": {
+        "tags": [
+          "me"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_me_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/watches": {
+      "get": {
+        "tags": [
+          "me"
+        ],
+        "summary": "My Watches",
+        "operationId": "my_watches_api_me_watches_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WatchOut"
+                  },
+                  "title": "Response My Watches Api Me Watches Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/go/{token}": {
+      "get": {
+        "tags": [
+          "links"
+        ],
+        "summary": "Go",
+        "operationId": "go_go__token__get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reply/{token}/{action}": {
+      "get": {
+        "tags": [
+          "links"
+        ],
+        "summary": "Reply",
+        "operationId": "reply_api_reply__token___action__get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          },
+          {
+            "name": "action",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ReplyAction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/proof/{token}": {
+      "get": {
+        "tags": [
+          "links"
+        ],
+        "summary": "Proof",
+        "operationId": "proof_api_proof__token__get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/company/log": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Company Log",
+        "operationId": "company_log_api_company_log_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "agent",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AgentName"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DecisionOut"
+                  },
+                  "title": "Response Company Log Api Company Log Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/company/stats": {
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Stats",
+        "operationId": "stats_api_company_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stats"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/free-events": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Free Events",
+        "operationId": "free_events_api_free_events_get",
+        "parameters": [
+          {
+            "name": "when",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "tonight",
+              "title": "When"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FreeEvent"
+                  },
+                  "title": "Response Free Events Api Free Events Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/fake-pay/{public_id}": {
+      "get": {
+        "tags": [
+          "dev"
+        ],
+        "summary": "Fake Pay",
+        "description": "Pretend Whop checkout: queues exactly the job a real payment webhook queues.",
+        "operationId": "fake_pay_api_dev_fake_pay__public_id__get",
+        "parameters": [
+          {
+            "name": "public_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Public Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/run-worker": {
+      "post": {
+        "tags": [
+          "dev"
+        ],
+        "summary": "Run Worker",
+        "description": "Run every agent once + drain jobs (instead of waiting 15 min).",
+        "operationId": "run_worker_api_dev_run_worker_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Api Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AgentName": {
+        "type": "string",
+        "enum": [
+          "ceo",
+          "growth",
+          "support",
+          "watcher",
+          "finance",
+          "compliance",
+          "research"
+        ],
+        "title": "AgentName"
+      },
+      "Body_twilio_sms_api_webhooks_sms_post": {
+        "properties": {
+          "From": {
+            "type": "string",
+            "title": "From"
+          },
+          "Body": {
+            "type": "string",
+            "title": "Body",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "From"
+        ],
+        "title": "Body_twilio_sms_api_webhooks_sms_post"
+      },
+      "Checklist": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "description": "The customer's original sentence"
+          },
+          "performer": {
+            "type": "string",
+            "title": "Performer",
+            "description": "Team/artist/show, e.g. \"New York Knicks\""
+          },
+          "venue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Venue"
+          },
+          "date_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Date From"
+          },
+          "date_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Date To"
+          },
+          "weekdays": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Weekdays",
+            "description": "0=Mon..6=Sun; empty = any day"
+          },
+          "max_price_per_ticket": {
+            "type": "number",
+            "title": "Max Price Per Ticket",
+            "description": "USD per ticket, all-in including fees"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity",
+            "default": 1
+          },
+          "exclude_sections": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Exclude Sections",
+            "description": "e.g. [\"upper level\"]"
+          },
+          "preferences": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Preferences",
+            "description": "Soft wishes; ranked, never guaranteed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query",
+          "performer",
+          "date_from",
+          "date_to",
+          "max_price_per_ticket"
+        ],
+        "title": "Checklist",
+        "description": "What the customer confirms before paying. A match = every field below is satisfied."
+      },
+      "CheckoutOut": {
+        "properties": {
+          "checkout_url": {
+            "type": "string",
+            "title": "Checkout Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "checkout_url"
+        ],
+        "title": "CheckoutOut"
+      },
+      "CreateWatchRequest": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Query",
+            "examples": [
+              "Knicks under $80, any Friday in November, 2 seats"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone",
+            "description": "E.164, e.g. +12125551234"
+          },
+          "sms_consent": {
+            "type": "boolean",
+            "title": "Sms Consent",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "query",
+          "email"
+        ],
+        "title": "CreateWatchRequest"
+      },
+      "DecisionOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "agent": {
+            "$ref": "#/components/schemas/AgentName"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "agent",
+          "action",
+          "reason",
+          "data",
+          "created_at"
+        ],
+        "title": "DecisionOut"
+      },
+      "EventInfo": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/TicketSource"
+          },
+          "external_id": {
+            "type": "string",
+            "title": "External Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "starts_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Starts At"
+          },
+          "venue": {
+            "type": "string",
+            "title": "Venue"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "external_id",
+          "name",
+          "starts_at",
+          "venue",
+          "url"
+        ],
+        "title": "EventInfo"
+      },
+      "FreeEvent": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "when": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "When"
+          },
+          "where": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Where"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "url"
+        ],
+        "title": "FreeEvent"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "LoginRequest"
+      },
+      "OkOut": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "OkOut"
+      },
+      "ReplyAction": {
+        "type": "string",
+        "enum": [
+          "bought",
+          "keep",
+          "reject"
+        ],
+        "title": "ReplyAction"
+      },
+      "SendCodeRequest": {
+        "properties": {
+          "watch_id": {
+            "type": "string",
+            "title": "Watch Id"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "watch_id",
+          "phone"
+        ],
+        "title": "SendCodeRequest"
+      },
+      "Stats": {
+        "properties": {
+          "revenue_usd": {
+            "type": "number",
+            "title": "Revenue Usd"
+          },
+          "payments": {
+            "type": "integer",
+            "title": "Payments"
+          },
+          "refunds": {
+            "type": "integer",
+            "title": "Refunds"
+          },
+          "watches_created": {
+            "type": "integer",
+            "title": "Watches Created"
+          },
+          "watches_active": {
+            "type": "integer",
+            "title": "Watches Active"
+          },
+          "alerts_sent": {
+            "type": "integer",
+            "title": "Alerts Sent"
+          },
+          "clicks": {
+            "type": "integer",
+            "title": "Clicks"
+          },
+          "purchases": {
+            "type": "integer",
+            "title": "Purchases"
+          },
+          "conversion_rate": {
+            "type": "number",
+            "title": "Conversion Rate",
+            "description": "paid watches / created watches"
+          },
+          "price_usd": {
+            "type": "number",
+            "title": "Price Usd"
+          }
+        },
+        "type": "object",
+        "required": [
+          "revenue_usd",
+          "payments",
+          "refunds",
+          "watches_created",
+          "watches_active",
+          "alerts_sent",
+          "clicks",
+          "purchases",
+          "conversion_rate",
+          "price_usd"
+        ],
+        "title": "Stats"
+      },
+      "TicketSource": {
+        "type": "string",
+        "enum": [
+          "seatgeek",
+          "ticketmaster",
+          "mock"
+        ],
+        "title": "TicketSource"
+      },
+      "UpdateChecklistRequest": {
+        "properties": {
+          "checklist": {
+            "$ref": "#/components/schemas/Checklist"
+          }
+        },
+        "type": "object",
+        "required": [
+          "checklist"
+        ],
+        "title": "UpdateChecklistRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerifyCodeRequest": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone",
+          "code"
+        ],
+        "title": "VerifyCodeRequest"
+      },
+      "VerifyOut": {
+        "properties": {
+          "verified": {
+            "type": "boolean",
+            "title": "Verified"
+          }
+        },
+        "type": "object",
+        "required": [
+          "verified"
+        ],
+        "title": "VerifyOut"
+      },
+      "WatchOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "public id (never the DB integer)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WatchStatus"
+          },
+          "checklist": {
+            "$ref": "#/components/schemas/Checklist"
+          },
+          "questions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Questions",
+            "description": "Follow-ups if the request was missing info"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventInfo"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "price_usd": {
+            "type": "number",
+            "title": "Price Usd"
+          },
+          "phone_verified": {
+            "type": "boolean",
+            "title": "Phone Verified",
+            "default": false
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "checklist",
+          "price_usd",
+          "created_at"
+        ],
+        "title": "WatchOut"
+      },
+      "WatchStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "awaiting_payment",
+          "active",
+          "purchased",
+          "expired",
+          "refunded",
+          "cancelled"
+        ],
+        "title": "WatchStatus"
+      }
+    }
+  }
+}

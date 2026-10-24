@@ -1,0 +1,39 @@
+[project]
+name = "ticket-watch"
+version = "0.1.0"
+description = "Agent-run ticket price watcher (Zero Human Company Hackathon NYC)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.162,<1",
+    "uvicorn[standard]>=0.54,<1",
+    "sqlalchemy>=2.1,<3",
+    "psycopg[binary]>=3.3,<4",
+    "pydantic[email]>=2.10,<3",
+    "pydantic-settings>=2.16,<3",
+    "apscheduler>=3.11,<4",
+    "httpx>=0.28,<1",
+    "anthropic>=2.3,<3",
+    "exa-py>=2.26,<3",
+    "resend>=2.50,<3",
+    "twilio>=9.12,<10",
+    "solari-browser>=0.2.3,<1",
+    "python-multipart>=0.0.20",
+]
+
+[dependency-groups]
+dev = ["pytest>=9.1,<10", "ruff>=0.17,<1"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B008", "E501"]  # formatter handles line length
