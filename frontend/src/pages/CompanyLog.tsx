@@ -69,7 +69,13 @@ export default function CompanyLog() {
               <p className="text-sm sm:col-span-2">{results.summary}</p>
             </div>
           ) : (
-            <p className="mt-2 text-sm">Test status: {self.status ?? "starting"}. Real people are looking at it now.</p>
+            <p className="mt-2 text-sm">
+              {self.status === "testing"
+                ? "Real people are looking at it right now."
+                : self.status === "failed"
+                  ? "Paused while we redesign the page. A new round starts soon."
+                  : "Starting: recruiting real people on Terac."}
+            </p>
           )}
         </div>
       )}

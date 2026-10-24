@@ -12,6 +12,29 @@ const FALLBACK: HeroCopy = {
   cta: "Test my page for $15",
 };
 
+const ICON = "h-5 w-5";
+const stroke = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const POWERED_BY = [
+  { name: "Terac", role: "real people", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0" /><circle cx="17" cy="9" r="2.5" /><path d="M16 14.2A5 5 0 0 1 21.5 19" /></svg>
+  ) },
+  { name: "Whop", role: "payments", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><rect x="2.5" y="5" width="19" height="14" rx="2.5" /><path d="M2.5 10h19M6.5 15h4" /></svg>
+  ) },
+  { name: "Exa", role: "web research", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><circle cx="10.5" cy="10.5" r="6.5" /><path d="m20 20-4.8-4.8" /></svg>
+  ) },
+  { name: "Solari", role: "headless browsers", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><rect x="2.5" y="4" width="19" height="16" rx="2.5" /><path d="M2.5 9h19M6 6.5h.01M9 6.5h.01" /></svg>
+  ) },
+  { name: "Claude", role: "AI agents", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" /></svg>
+  ) },
+  { name: "Cloudflare", role: "hosting", icon: (
+    <svg viewBox="0 0 24 24" className={ICON} {...stroke}><path d="M7 18h10.5a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.3 9.2 4.5 4.5 0 0 0 7 18Z" /></svg>
+  ) },
+];
+
 const STEPS = [
   ["Paste your URL", "Plus one sentence: what you do, and for whom. We read the top of your page and write a clearer version."],
   ["Real people look for 10 seconds", "Recruited through Terac. Half see your page, half see our rewrite, then tell us what they think you do."],
@@ -110,13 +133,24 @@ export default function Landing() {
         <HeroVisual />
       </section>
 
-      {/* powered by */}
+      {/* powered by: slow, looping marquee (pauses on hover, still for reduced motion) */}
       <section className="border-y border-line bg-paper/60">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-5 py-6">
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted">Powered by</span>
-          {["Terac", "Whop", "Exa", "Solari", "Claude"].map((name) => (
-            <span key={name} className="font-display text-xl font-semibold text-ink/60">{name}</span>
-          ))}
+        <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-6">
+          <span className="shrink-0 text-xs font-medium uppercase tracking-[0.2em] text-muted">Powered by</span>
+          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+            <div className="flex w-max animate-marquee gap-4 hover:[animation-play-state:paused]">
+              {[...POWERED_BY, ...POWERED_BY].map((item, i) => (
+                <div key={i} aria-hidden={i >= POWERED_BY.length}
+                  className="flex shrink-0 items-center gap-3 rounded-full border border-line bg-paper py-2 pl-2 pr-5">
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-soft text-brand-dark">{item.icon}</span>
+                  <span>
+                    <span className="block font-display text-lg font-semibold leading-tight">{item.name}</span>
+                    <span className="block text-xs text-muted">{item.role}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

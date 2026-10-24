@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces", ui-serif, Georgia, serif;
@@ -12,6 +14,44 @@
   --color-brand-dark: #3730a3;
   --color-brand-soft: #e7e5fb;
   --color-sun: #fde68a;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+/* Dark mode: swap the palette (every page uses these tokens), plus the few stock colors pages use. */
+.dark {
+  --color-cream: #13121c;
+  --color-paper: #1c1a28;
+  --color-ink: #f2eee6;
+  --color-muted: #a7a3b8;
+  --color-line: #2e2b3d;
+  --color-brand: #8b85ff;
+  --color-brand-dark: #b4b0ff;
+  --color-brand-soft: #2a2752;
+  --color-sun: #6b5a1c;
+  --color-white: #1c1a28;
+  --color-slate-50: #22202f;
+  --color-slate-100: #2a2838;
+  --color-slate-200: #34314a;
+  --color-slate-300: #45415d;
+  --color-slate-400: #8e8aa3;
+  --color-slate-500: #a7a3b8;
+  --color-slate-600: #bdb9cc;
+  --color-slate-700: #d6d2e2;
+  --color-slate-900: #f2eee6;
+  --color-green-50: #16291f;
+  --color-green-100: #1d3a2b;
+  --color-green-800: #8ee0b0;
+  --color-sky-50: #15253a;
+  --color-sky-300: #2f5b8a;
+  --color-amber-50: #33290f;
+  --color-amber-700: #f5c76a;
+  --color-red-600: #f87171;
+  color-scheme: dark;
 }
 
 body {
@@ -19,8 +59,15 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }

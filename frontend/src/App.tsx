@@ -6,6 +6,7 @@ import NewTest from "./pages/NewTest";
 import Report from "./pages/Report";
 import TestTaker from "./pages/TestTaker";
 import CompanyLog from "./pages/CompanyLog";
+import { ThemeToggle } from "./theme";
 
 export function Logo() {
   return (
@@ -48,7 +49,8 @@ export default function App() {
               </>
             )}
             <Link to="/company" className="hidden hover:text-ink sm:block">Company log</Link>
-            <Link to="/test/new" className="ml-2 rounded-full bg-ink px-4 py-2 font-medium text-cream hover:bg-brand-dark">
+            <ThemeToggle />
+            <Link to="/test/new" className="ml-1 rounded-full bg-ink px-4 py-2 font-medium text-cream hover:bg-brand-dark">
               Test my page
             </Link>
           </nav>
