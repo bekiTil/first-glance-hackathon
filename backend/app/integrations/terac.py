@@ -50,7 +50,7 @@ def _quote(opportunity: dict) -> dict:
     }
 
 
-def _existing_draft(client: httpx.Client, task_url: str) -> dict | None:
+def _existing_draft(client: httpx.Client, task_url: str, participants: int) -> dict | None:
     """A retry after a timeout must not pile up drafts: reuse the draft that points at this test page."""
     try:
         drafts = _unwrap(client.get("/opportunities", params={"status": "draft"}))
@@ -61,7 +61,8 @@ def _existing_draft(client: httpx.Client, task_url: str) -> dict | None:
             opp = _unwrap(client.get(f"/opportunities/{summary['id']}"))
         except (TeracError, httpx.HTTPError, KeyError):
             continue
-        if any((t or {}).get("task_url") == task_url for t in opp.get("tasks") or []):
+        same_page = any((t or {}).get("task_url") == task_url for t in opp.get("tasks") or [])
+        if same_page and opp.get("num_participants") == participants:  # a different size = a different price
             return opp
     return None
 
@@ -94,7 +95,7 @@ def create_study(title: str, description: str, task_url: str, participants: int,
             "affordable": True,
         }
     with _client() as client:
-        existing = _existing_draft(client, task_url)
+        existing = _existing_draft(client, task_url, participants)
         if existing:
             return _quote(existing)
         opportunity = _unwrap(

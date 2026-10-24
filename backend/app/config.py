@@ -33,9 +33,9 @@ class Settings(BaseSettings):
     # Page reading + testing (Bereket)
     solari_api_key: str = ""
     mock_solari: bool = True
-    test_participants: int = 10  # per test, split evenly between original and rewrite
+    test_participants: int = 4  # per test ($4.50 each on Terac), split evenly between original and rewrite
     test_seconds: int = 5  # how long each participant sees the page
-    min_answers_per_arm: int = 4  # grade once both arms have this many...
+    min_answers_per_arm: int = 2  # grade once both arms have this many...
     test_timeout_minutes: int = 120  # ...or after this long, with whatever answers came in
 
     # Whop: Natnael ONLY (his account). Never set these on anyone else's machine.
